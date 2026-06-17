@@ -5,13 +5,14 @@
 
 @section('content')
 
-<!-- Header Action Row -->
-<div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
-    <div>
-        <h4 style="margin: 0 0 0.25rem 0; color: var(--primary);">Strategi Pemasaran Villa & Properti</h4>
-        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Buat promo menarik untuk meningkatkan okupansi properti Anda di musim sepi (low-season).</p>
-    </div>
-    <button onclick="openPromoModal()" class="btn" style="background: var(--secondary); color: white; border: none; padding: 0.75rem 1.5rem; font-weight: 600; font-size: 0.95rem; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-sm);">
+<!-- Back Header & Action Row -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+    <a href="{{ route('owner.properties.index') }}" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.95rem; transition: var(--transition);" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Kembali ke Daftar Properti</span>
+    </a>
+    
+    <button onclick="openPromoModal()" class="btn" style="background: var(--secondary); color: white; border: none; padding: 0.6rem 1.25rem; font-weight: 600; font-size: 0.95rem; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: var(--shadow-sm);">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         <span>Buat Promo Baru</span>
     </button>
