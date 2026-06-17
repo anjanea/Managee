@@ -131,6 +131,14 @@ class DatabaseSeeder extends Seeder
                     'status' => 'Selesai',
                 ]);
 
+                $repliesPool = [
+                    'Terima kasih ulasannya! Kami sangat senang Anda menikmati kenyamanan properti kami.',
+                    'Terima kasih atas masukannya. Kami senantiasa berupaya menjaga fasilitas agar selalu prima.',
+                    'Senang sekali melayani Anda! Semoga bisa menyambut Anda kembali di masa mendatang.',
+                    'Terima kasih ulasan bintang limanya! Kami tunggu kunjungan Anda berikutnya.',
+                ];
+                $reply = ($r == 0) ? $repliesPool[$index % count($repliesPool)] : null;
+
                 // Create review
                 \App\Models\Review::create([
                     'user_id' => $reviewer->id,
@@ -138,6 +146,7 @@ class DatabaseSeeder extends Seeder
                     'booking_id' => $booking->id,
                     'stars' => $stars,
                     'comment' => $commentsPool[($index + $r) % count($commentsPool)],
+                    'reply' => $reply,
                 ]);
             }
         }

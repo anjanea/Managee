@@ -75,6 +75,8 @@ Route::prefix('owner')->name('owner.')->middleware(['auth', 'owner'])->group(fun
 
     // Ulasan & Rating Penyewa
     Route::get('/ulasan', [OwnerDashboardController::class, 'ulasanIndex'])->name('ulasan.index');
+    Route::post('/ulasan/{review}/balas', [OwnerDashboardController::class, 'ulasanReply'])->name('ulasan.reply');
+    Route::delete('/ulasan/{review}/balas/hapus', [OwnerDashboardController::class, 'ulasanDeleteReply'])->name('ulasan.delete_reply');
 
     // Pusat Bantuan & FAQ
     Route::get('/bantuan', [OwnerDashboardController::class, 'bantuanIndex'])->name('bantuan.index');

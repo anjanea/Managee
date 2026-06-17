@@ -514,50 +514,32 @@ class OwnerDashboardController extends Controller
 
     public function ulasanIndex()
     {
-        $dbReviews = \App\Models\Review::with(['user', 'property'])->orderBy('created_at', 'desc')->get();
-        
-        $reviews = [];
-        foreach ($dbReviews as $rev) {
-            $reviews[] = [
-                'tenant_name' => $rev->user->name,
-                'property_title' => $rev->property->title,
-                'stars' => $rev->stars,
-                'comment' => $rev->comment,
-                'date' => $rev->created_at->format('d M Y'),
-                'reply' => null
-            ];
-        }
-
-        if (empty($reviews)) {
-            $reviews = [
-                [
-                    'tenant_name' => 'Rudi Hermawan',
-                    'property_title' => 'Apartemen Chilitown',
-                    'stars' => 5,
-                    'comment' => 'Kondisi apartemen bersih, pemandangan kota di malam hari sangat memukau. Sangat direkomendasikan untuk staycation.',
-                    'date' => '15 Jun 2026',
-                    'reply' => 'Terima kasih banyak Rudi! Kami senang Anda menyukai kenyamanan unit kami.'
-                ],
-                [
-                    'tenant_name' => 'Budi Santoso',
-                    'property_title' => 'Apartemen Chilitown',
-                    'stars' => 4,
-                    'comment' => 'Fasilitas lengkap dan bersih. Hanya saja lift agak lambat saat jam sibuk.',
-                    'date' => '05 Jul 2026',
-                    'reply' => null
-                ],
-                [
-                    'tenant_name' => 'Andi Wijaya',
-                    'property_title' => 'Villa Canggu',
-                    'stars' => 5,
-                    'comment' => 'Private pool bersih, servis dari staf super ramah. Akses jalan dekat dengan pantai. Pasti akan kembali lagi!',
-                    'date' => '28 Jun 2026',
-                    'reply' => null
-                ]
-            ];
-        }
-
+        $reviews = \App\Models\Review::with(['user', 'property'])->orderBy('created_at', 'desc')->get();
         return view('owner.ulasan', compact('reviews'));
+    }
+
+    public function ulasanReply(Request $request, \App\Models\Review $review)
+    {
+        $request->validate([
+            'reply' => 'required|string',
+        ], [
+            'reply.required' => 'Tanggapan wajib diisi.',
+        ]);
+
+        $review->update([
+            'reply' => $request->input('reply')
+        ]);
+
+        return redirect()->back()->with('success', 'Tanggapan ulasan berhasil disimpan!');
+    }
+
+    public function ulasanDeleteReply(\App\Models\Review $review)
+    {
+        $review->update([
+            'reply' => null
+        ]);
+
+        return redirect()->back()->with('success', 'Tanggapan ulasan berhasil dihapus!');
     }
 
 

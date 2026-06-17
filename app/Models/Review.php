@@ -15,6 +15,7 @@ class Review extends Model
         'booking_id',
         'stars',
         'comment',
+        'reply',
     ];
 
     public function user()
