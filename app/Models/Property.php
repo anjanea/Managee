@@ -29,6 +29,7 @@ class Property extends Model
         'water_source',
         'facilities',
         'images',
+        'views',
     ];
 
     protected $casts = [

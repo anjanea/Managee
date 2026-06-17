@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('water_source')->nullable(); // Sumber air
             $table->text('facilities')->nullable(); // Fasilitas (JSON array)
             $table->text('images')->nullable(); // Kumpulan foto URL tambahan (JSON array)
+            $table->integer('views')->default(0);
         });
     }
 
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->dropColumn([
                 'description', 'bedrooms', 'bathrooms', 'area', 'floors', 
                 'garage', 'year_built', 'certificate', 'electricity', 
-                'water_source', 'facilities', 'images'
+                'water_source', 'facilities', 'images', 'views'
             ]);
         });
     }

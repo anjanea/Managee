@@ -319,6 +319,7 @@ class PropertySeeder extends Seeder
         ];
 
         foreach ($properties as $property) {
+            $property['views'] = rand(50, 450);
             Property::create($property);
         }
     }

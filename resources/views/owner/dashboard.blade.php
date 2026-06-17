@@ -122,35 +122,51 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse($recentBookings as $booking)
                         <tr style="border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0;">Rudi Hermawan</td>
-                            <td>Apartemen Chilitown</td>
-                            <td style="font-size: 0.9rem; color: var(--text-muted);">08 Jun - 15 Jun 2026</td>
-                            <td style="font-weight: 600; color: var(--primary);">Rp 12.500.000</td>
-                            <td><span class="badge badge-success" style="background-color: rgba(34, 197, 94, 0.1); color: #166534; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Selesai</span></td>
-                            <td style="color: var(--text-muted); font-size: 0.85rem; text-align: right;">-</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0;">Clara Amalia</td>
-                            <td>Villa Canggu</td>
-                            <td style="font-size: 0.9rem; color: var(--text-muted);">12 Jun - 14 Jun 2026</td>
-                            <td style="font-weight: 600; color: var(--primary);">Rp 8.500.000</td>
-                            <td><span id="clara-status" class="badge badge-warning" style="background-color: rgba(202, 138, 4, 0.1); color: #854d0e; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Menunggu</span></td>
+                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0;">{{ $booking->user->name }}</td>
+                            <td>{{ $booking->property->title }}</td>
+                            <td style="font-size: 0.9rem; color: var(--text-muted);">
+                                {{ \Carbon\Carbon::parse($booking->checkin_date)->format('d M') }} - {{ \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y') }}
+                            </td>
+                            <td style="font-weight: 600; color: var(--primary);">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
+                            <td>
+                                @if($booking->status === 'Selesai')
+                                    <span class="badge badge-success" style="background-color: rgba(34, 197, 94, 0.1); color: #166534; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Selesai</span>
+                                @elseif($booking->status === 'Dikonfirmasi')
+                                    <span class="badge badge-info" style="background-color: rgba(14, 165, 233, 0.1); color: #0369a1; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Dikonfirmasi</span>
+                                @elseif($booking->status === 'Ditolak')
+                                    <span class="badge" style="background-color: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Ditolak</span>
+                                @else
+                                    <span id="booking-{{ $booking->id }}-status" class="badge badge-warning" style="background-color: rgba(202, 138, 4, 0.1); color: #854d0e; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Menunggu</span>
+                                @endif
+                            </td>
                             <td style="text-align: right;">
-                                <div id="clara-actions" style="display: flex; gap: 0.4rem; align-items: center; justify-content: flex-end;">
-                                    <button type="button" class="btn-approve" onclick="approveBooking('clara')" style="background-color: #22c55e; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem; transition: var(--transition);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Terima</button>
-                                    <button type="button" class="btn-reject" onclick="rejectBooking('clara')" style="background-color: #ef4444; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem; transition: var(--transition);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Tolak</button>
-                                </div>
+                                @if($booking->status === 'Menunggu')
+                                    <div id="booking-{{ $booking->id }}-actions" style="display: flex; gap: 0.4rem; align-items: center; justify-content: flex-end;">
+                                        <form action="{{ route('owner.bookings.approve', $booking->id) }}" method="POST" style="margin:0;">
+                                            @csrf
+                                            <button type="submit" class="btn-approve" style="background-color: #22c55e; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem; transition: var(--transition);">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Terima
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('owner.bookings.reject', $booking->id) }}" method="POST" style="margin:0;">
+                                            @csrf
+                                            <button type="submit" class="btn-reject" style="background-color: #ef4444; color: white; border: none; padding: 0.35rem 0.75rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.2rem; transition: var(--transition);">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Tolak
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <span style="color: var(--text-muted); font-size: 0.85rem;">-</span>
+                                @endif
                             </td>
                         </tr>
-                        <tr style="border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0;">Deni Saputra</td>
-                            <td>Rumah Modern Ubud</td>
-                            <td style="font-size: 0.9rem; color: var(--text-muted);">20 Jun - 20 Jul 2026</td>
-                            <td style="font-weight: 600; color: var(--primary);">Rp 12.500.000</td>
-                            <td><span class="badge badge-info" style="background-color: rgba(14, 165, 233, 0.1); color: #0369a1; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Dikonfirmasi</span></td>
-                            <td style="color: var(--text-muted); font-size: 0.85rem; text-align: right;">-</td>
+                        @empty
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.9rem;">Belum ada pemesanan masuk.</td>
                         </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

@@ -13,12 +13,17 @@ class OwnerDashboardController extends Controller
     {
         $stats = [
             'properties_count' => Property::count(),
-            'bookings_count' => 12,
+            'bookings_count' => \App\Models\Booking::whereIn('status', ['Menunggu', 'Dikonfirmasi'])->count(),
             'articles_count' => BlogPost::count(),
-            'views_count' => 1240,
+            'views_count' => Property::sum('views'),
         ];
 
-        return view('owner.dashboard', compact('stats'));
+        $recentBookings = \App\Models\Booking::with(['user', 'property'])
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('owner.dashboard', compact('stats', 'recentBookings'));
     }
 
     /* -------------------------------------------------------------

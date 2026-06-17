@@ -247,6 +247,7 @@ class PropertyController extends Controller
     public function showPublic($id)
     {
         $property = Property::findOrFail($id);
+        $property->increment('views');
         
         $dbReviews = \App\Models\Review::with('user')
             ->where('property_id', $property->id)
