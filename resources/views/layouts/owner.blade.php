@@ -103,11 +103,11 @@
                 <div class="profile-container" style="position: relative;">
                     <button type="button" id="profile-menu-button" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; text-align: left; padding: 0.25rem; outline: none;">
                         <div class="profile-info" style="display: flex; flex-direction: column; text-align: right;">
-                            <span class="profile-name" style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">Anjani</span>
+                            <span class="profile-name" style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">{{ auth()->user()->name }}</span>
                             <span class="profile-role" style="font-size: 0.8rem; color: var(--text-muted);">Mitra Pemilik</span>
                         </div>
                         <div class="profile-avatar" style="width: 40px; height: 40px; background-color: var(--secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;">
-                            <span>A</span>
+                            <span>{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
                         </div>
                     </button>
                     <!-- Dropdown List -->

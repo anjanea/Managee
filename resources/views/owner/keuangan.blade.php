@@ -183,7 +183,7 @@
                 <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Rekening Tujuan</label>
                 <div style="background: var(--bg-light); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.75rem 1rem;">
                     <strong style="display: block; font-size: 0.9rem;">BCA - 8012****11</strong>
-                    <span style="font-size: 0.8rem; color: var(--text-muted);">a.n. Anjani</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">a.n. {{ auth()->user()->name }}</span>
                 </div>
             </div>
             <div style="margin-bottom: 1.25rem;">
@@ -222,7 +222,7 @@
             </div>
             <div style="margin-bottom: 1.25rem;">
                 <label for="bank-owner" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Nama Pemilik Rekening</label>
-                <input type="text" id="bank-owner" value="Anjani" style="width: 100%; box-sizing: border-box; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none;">
+                <input type="text" id="bank-owner" value="{{ auth()->user()->name }}" style="width: 100%; box-sizing: border-box; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none;">
             </div>
             <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                 <button onclick="closeBankModal()" style="flex: 1; padding: 0.75rem; border: 1px solid var(--border); background: white; border-radius: var(--radius-md); font-weight: 600; cursor: pointer;">Batal</button>
@@ -301,7 +301,7 @@
                     Penarikan Dana
                 </span>
             </td>
-            <td style="font-weight: 500; color: var(--text-main);">Penarikan Dana ke BCA (Anjani)</td>
+            <td style="font-weight: 500; color: var(--text-main);">Penarikan Dana ke BCA ({{ auth()->user()->name }})</td>
             <td style="font-weight: 600; color: #ef4444;">-Rp ${new Intl.NumberFormat('id-ID').format(amount)}</td>
             <td style="text-align: right;">
                 <span style="font-weight: 600; font-size: 0.8rem; color: #eab308;">

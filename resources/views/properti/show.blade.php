@@ -1141,7 +1141,7 @@
 
                 <!-- Host/Owner Information Section -->
                 @php
-                    $propertyOwner = \App\Models\User::where('role', 'owner')->first() ?: (object)['name' => 'Anjani', 'email' => 'support@managee.id'];
+                    $propertyOwner = \App\Models\User::where('role', 'owner')->first() ?: (object)['name' => 'Pak Hendra (Owner)', 'email' => 'owner@managee.com'];
                     $ownerName = $propertyOwner->name;
                     $ownerEmail = $propertyOwner->email;
                     $ownerInitial = strtoupper(substr($ownerName, 0, 1));

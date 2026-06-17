@@ -388,7 +388,7 @@ class OwnerDashboardController extends Controller
             'bank_info' => [
                 'nama_bank' => 'Bank Central Asia (BCA)',
                 'nomor_rekening' => '8012998811',
-                'nama_pemilik' => 'Anjani'
+                'nama_pemilik' => auth()->user()->name
             ],
             'riwayat_penarikan' => [
                 [
@@ -417,7 +417,7 @@ class OwnerDashboardController extends Controller
                 [
                     'tanggal' => '02 Jun 2026',
                     'tipe' => 'Penarikan Dana',
-                    'deskripsi' => 'Penarikan Dana ke BCA (Anjani)',
+                    'deskripsi' => 'Penarikan Dana ke BCA (' . auth()->user()->name . ')',
                     'jumlah' => -15000000,
                     'status' => 'Sukses'
                 ],
@@ -431,7 +431,7 @@ class OwnerDashboardController extends Controller
                 [
                     'tanggal' => '15 Mei 2026',
                     'tipe' => 'Penarikan Dana',
-                    'deskripsi' => 'Penarikan Dana ke BCA (Anjani)',
+                    'deskripsi' => 'Penarikan Dana ke BCA (' . auth()->user()->name . ')',
                     'jumlah' => -20000000,
                     'status' => 'Sukses'
                 ]

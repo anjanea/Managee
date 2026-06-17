@@ -4,7 +4,7 @@
 @section('page_title', 'Dashboard')
 
 @section('page_subtitle')
-    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500; display: block; margin-top: 0.15rem;">Selamat datang kembali, Anjani!</span>
+    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500; display: block; margin-top: 0.15rem;">Selamat datang kembali, {{ auth()->user()->name }}!</span>
 @endsection
 
 @section('content')
