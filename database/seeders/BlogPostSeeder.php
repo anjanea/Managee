@@ -149,6 +149,37 @@ class BlogPostSeeder extends Seeder
                 'image' => 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=600',
                 'is_own' => false,
                 'views' => 280,
+            ],
+            // Seeded articles written by the owner (Pak Hendra) with is_own = true
+            [
+                'title' => 'Pengalaman Saya Mengelola Villa di Bali: Suka dan Duka',
+                'slug' => 'pengalaman-saya-mengelola-villa-di-bali-suka-dan-duka',
+                'content' => "Mengelola villa di kawasan pariwisata seperti Bali memberikan banyak pengalaman berharga. Dari menyambut tamu internasional hingga menjaga standar kualitas fasilitas villa. Sebagai pemilik, saya selalu menekankan pentingnya keramahan lokal dan perawatan rutin untuk memastikan tamu merasa seperti di rumah sendiri. Salah satu tantangan terbesar adalah menjaga kebersihan kolam renang dan taman di tengah cuaca tropis yang dinamis, namun senyum kepuasan dari penyewa saat check-out selalu membayar lunas semua kerja keras tersebut.",
+                'author' => 'Pak Hendra (Owner)',
+                'category' => 'Panduan Pemilik',
+                'image' => 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=800',
+                'is_own' => true,
+                'views' => 350,
+            ],
+            [
+                'title' => 'Pentingnya Menjaga Hubungan Baik dengan Penyewa Properti',
+                'slug' => 'pentingnya-menjaga-hubungan-baik-dengan-penyewa-properti',
+                'content' => "Hubungan antara pemilik properti dan penyewa bukan sekadar transaksi bisnis bulanan. Membangun komunikasi yang transparan dan bersikap responsif terhadap keluhan penyewa adalah kunci retensi jangka panjang. Selama bertahun-tahun mengelola properti, saya menyadari bahwa penyewa yang merasa dihargai cenderung menjaga unit dengan lebih baik. Selalu tanggapi laporan kerusakan dengan cepat, lakukan inspeksi berkala yang sopan, dan berikan sedikit perhatian ekstra seperti ucapan selamat hari raya untuk mempererat tali silaturahmi.",
+                'author' => 'Pak Hendra (Owner)',
+                'category' => 'Panduan Pemilik',
+                'image' => 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800',
+                'is_own' => true,
+                'views' => 240,
+            ],
+            [
+                'title' => 'Checklist Perawatan Rutin Properti Sebelum Disewakan',
+                'slug' => 'checklist-perawatan-rutin-properti-sebelum-disewakan',
+                'content' => "Sebelum menyerahkan kunci kepada penyewa baru, ada serangkaian pemeriksaan wajib yang selalu saya lakukan secara pribadi. Pertama, pastikan seluruh sistem kelistrikan aman, lampu berfungsi, dan AC telah diservis. Kedua, periksa saluran air dan pastikan tidak ada kebocoran di kamar mandi maupun area dapur. Ketiga, bersihkan seluruh ruangan secara menyeluruh, termasuk tirai dan ventilasi udara. Properti yang bersih dan siap huni sejak hari pertama akan memberikan impresi awal yang sangat positif.",
+                'author' => 'Pak Hendra (Owner)',
+                'category' => 'Perawatan & Fasilitas',
+                'image' => 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800',
+                'is_own' => true,
+                'views' => 410,
             ]
         ];
 
