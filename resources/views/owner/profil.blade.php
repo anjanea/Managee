@@ -52,7 +52,7 @@
             </div>
             
             <div style="margin-bottom: 1.25rem;">
-                <label for="profil-email" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Alamat Email</label>
+                <label for="profil-email" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Alamat Surel</label>
                 <input type="email" id="profil-email" value="{{ $profil['email'] }}" style="width: 100%; box-sizing: border-box; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; outline: none;">
             </div>
 
@@ -80,7 +80,7 @@
         const bio = document.getElementById('profil-bio').value;
 
         if (!name || !email) {
-            alert('Nama Lengkap dan Email wajib diisi!');
+            alert('Nama Lengkap dan Surel wajib diisi!');
             return;
         }
 

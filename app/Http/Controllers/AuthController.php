@@ -39,6 +39,10 @@ class AuthController extends Controller
             'email.email' => 'Format surel tidak valid.',
             'password.required' => 'Kata sandi wajib diisi.',
             'role.required' => 'Peran masuk wajib ditentukan.',
+        ], [
+            'email' => 'surel',
+            'password' => 'kata sandi',
+            'role' => 'peran',
         ]);
 
         // Exclude role from credentials passed to Auth::attempt directly, but verify it manually
@@ -103,6 +107,10 @@ class AuthController extends Controller
             'password.required' => 'Kata sandi wajib diisi.',
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'password.min' => 'Kata sandi minimal harus terdiri dari 8 karakter.',
+        ], [
+            'name' => 'nama lengkap',
+            'email' => 'alamat surel',
+            'password' => 'kata sandi',
         ]);
 
         $user = User::create([
@@ -154,6 +162,8 @@ class AuthController extends Controller
         ], [
             'email.required' => 'Alamat surel wajib diisi.',
             'email.email' => 'Format surel tidak valid.',
+        ], [
+            'email' => 'alamat surel',
         ]);
 
         // Simulating checking if the user exists

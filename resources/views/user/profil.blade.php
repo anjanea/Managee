@@ -247,8 +247,8 @@
 
                         <!-- Email -->
                         <div class="form-group">
-                            <label for="email">Alamat Email</label>
-                            <input type="email" id="email" name="email" class="form-input" value="{{ old('email', $user->email) }}" placeholder="budi@email.com">
+                            <label for="email">Alamat Surel</label>
+                            <input type="email" id="email" name="email" class="form-input" value="{{ old('email', $user->email) }}" placeholder="budi@surel.com">
                         </div>
 
                         <!-- Telepon -->
