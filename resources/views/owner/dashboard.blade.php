@@ -175,8 +175,8 @@
     <!-- Weekly Agenda Widget -->
     <div class="owner-card" style="margin-bottom: 0; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden;">
         <div class="card-header" style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-            <h4 style="margin: 0; color: var(--primary);">Agenda Properti Pekan Ini</h4>
-            <span style="font-size: 0.75rem; font-weight: 700; color: var(--secondary); background: rgba(202, 138, 4, 0.1); padding: 0.25rem 0.5rem; border-radius: 4px;">8 - 15 Jun 2026</span>
+            <h4 style="margin: 0; color: var(--primary);">Agenda Properti Terdekat</h4>
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--secondary); background: rgba(202, 138, 4, 0.1); padding: 0.25rem 0.5rem; border-radius: 4px;">Pekan Ini</span>
         </div>
         <div class="card-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
             <!-- Agenda Timeline -->
@@ -184,49 +184,22 @@
                 <!-- Vertical Line -->
                 <div style="position: absolute; left: 4px; top: 8px; bottom: 8px; width: 2px; background: var(--border);"></div>
 
-                <!-- Event Item 1 -->
-                <div style="position: relative; display: flex; flex-direction: column; gap: 0.25rem;">
-                    <!-- Timeline Node -->
-                    <div style="position: absolute; left: -24px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 3px solid white; box-shadow: 0 0 0 1px #22c55e;"></div>
-                    <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">SENIN, 08 JUN</div>
-                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">
-                        Masuk: <span style="color: var(--primary);">Rudi Hermawan</span>
+                @forelse($agendaEvents as $event)
+                    <!-- Event Item -->
+                    <div style="position: relative; display: flex; flex-direction: column; gap: 0.25rem;">
+                        <!-- Timeline Node -->
+                        <div style="position: absolute; left: -24px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: {{ $event['color'] }}; border: 3px solid white; box-shadow: 0 0 0 1px {{ $event['color'] }};"></div>
+                        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+                            {{ $event['date']->translatedFormat('l, d M') }}
+                        </div>
+                        <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">
+                            {{ $event['type'] }}: <span style="color: var(--primary);">{{ $event['user'] }}</span>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">{{ $event['property'] }} ({{ $event['formatted_dates'] }})</div>
                     </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Apartemen Chilitown (08 - 15 Jun)</div>
-                </div>
- 
-                <!-- Event Item 2 -->
-                <div style="position: relative; display: flex; flex-direction: column; gap: 0.25rem;">
-                    <!-- Timeline Node -->
-                    <div style="position: absolute; left: -24px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 3px solid white; box-shadow: 0 0 0 1px #22c55e;"></div>
-                    <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">JUMAT, 12 JUN</div>
-                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">
-                        Masuk: <span style="color: var(--primary);">Clara Amalia</span>
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Villa Canggu (12 - 14 Jun)</div>
-                </div>
- 
-                <!-- Event Item 3 -->
-                <div style="position: relative; display: flex; flex-direction: column; gap: 0.25rem;">
-                    <!-- Timeline Node -->
-                    <div style="position: absolute; left: -24px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; border: 3px solid white; box-shadow: 0 0 0 1px #ef4444;"></div>
-                    <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">MINGGU, 14 JUN</div>
-                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">
-                        Keluar: <span style="color: var(--primary);">Clara Amalia</span>
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Villa Canggu (12 - 14 Jun)</div>
-                </div>
- 
-                <!-- Event Item 4 -->
-                <div style="position: relative; display: flex; flex-direction: column; gap: 0.25rem;">
-                    <!-- Timeline Node -->
-                    <div style="position: absolute; left: -24px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; border: 3px solid white; box-shadow: 0 0 0 1px #ef4444;"></div>
-                    <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">SENIN, 15 JUN</div>
-                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);">
-                        Keluar: <span style="color: var(--primary);">Rudi Hermawan</span>
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Apartemen Chilitown (08 - 15 Jun)</div>
-                </div>
+                @empty
+                    <div style="text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.9rem;">Belum ada agenda properti pekan ini.</div>
+                @endforelse
             </div>
         </div>
     </div>

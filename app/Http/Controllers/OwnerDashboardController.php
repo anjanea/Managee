@@ -23,7 +23,46 @@ class OwnerDashboardController extends Controller
             ->take(3)
             ->get();
 
-        return view('owner.dashboard', compact('stats', 'recentBookings'));
+        // Fetch bookings to build the agenda dynamically
+        $agendaBookings = \App\Models\Booking::with(['user', 'property'])
+            ->whereIn('status', ['Dikonfirmasi', 'Selesai', 'Menunggu'])
+            ->orderBy('checkin_date', 'asc')
+            ->take(5)
+            ->get();
+
+        $agendaEvents = [];
+        foreach ($agendaBookings as $booking) {
+            if ($booking->user && $booking->property) {
+                // Checkin event
+                $agendaEvents[] = [
+                    'date' => \Carbon\Carbon::parse($booking->checkin_date),
+                    'type' => 'Masuk',
+                    'user' => $booking->user->name,
+                    'property' => $booking->property->title,
+                    'color' => '#22c55e',
+                    'formatted_dates' => \Carbon\Carbon::parse($booking->checkin_date)->format('d M') . ' - ' . \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y')
+                ];
+                // Checkout event
+                $agendaEvents[] = [
+                    'date' => \Carbon\Carbon::parse($booking->checkout_date),
+                    'type' => 'Keluar',
+                    'user' => $booking->user->name,
+                    'property' => $booking->property->title,
+                    'color' => '#ef4444',
+                    'formatted_dates' => \Carbon\Carbon::parse($booking->checkin_date)->format('d M') . ' - ' . \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y')
+                ];
+            }
+        }
+
+        // Sort events chronologically (date asc)
+        usort($agendaEvents, function ($a, $b) {
+            return $a['date']->timestamp <=> $b['date']->timestamp;
+        });
+
+        // Limit to 4 events
+        $agendaEvents = array_slice($agendaEvents, 0, 4);
+
+        return view('owner.dashboard', compact('stats', 'recentBookings', 'agendaEvents'));
     }
 
     /* -------------------------------------------------------------
