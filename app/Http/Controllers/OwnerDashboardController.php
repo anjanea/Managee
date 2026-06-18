@@ -19,7 +19,7 @@ class OwnerDashboardController extends Controller
         ];
 
         $recentBookings = \App\Models\Booking::with(['user', 'property'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->take(3)
             ->get();
 
