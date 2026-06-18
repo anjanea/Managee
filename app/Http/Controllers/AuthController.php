@@ -35,9 +35,9 @@ class AuthController extends Controller
             'password' => ['required'],
             'role' => ['required', 'in:user,owner'],
         ], [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Password wajib diisi.',
+            'email.required' => 'Surel wajib diisi.',
+            'email.email' => 'Format surel tidak valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
             'role.required' => 'Peran masuk wajib ditentukan.',
         ]);
 
@@ -54,7 +54,7 @@ class AuthController extends Controller
             if ($user->role !== $credentials['role']) {
                 Auth::logout();
                 return back()->withErrors([
-                    'role_error' => 'Akun Anda tidak terdaftar sebagai ' . ($credentials['role'] === 'owner' ? 'Owner' : 'Penyewa') . '.',
+                    'role_error' => 'Akun Anda tidak terdaftar sebagai ' . ($credentials['role'] === 'owner' ? 'Pemilik Properti (Owner)' : 'Penyewa') . '.',
                 ])->withInput($request->only('email', 'role'));
             }
 
@@ -68,7 +68,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password yang Anda masukkan salah.',
+            'email' => 'Surel atau kata sandi yang Anda masukkan salah.',
         ])->withInput($request->only('email', 'role'));
     }
 
@@ -97,12 +97,12 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
-            'email.required' => 'Alamat email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email ini sudah terdaftar.',
-            'password.required' => 'Password wajib diisi.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
+            'email.required' => 'Alamat surel wajib diisi.',
+            'email.email' => 'Format surel tidak valid.',
+            'email.unique' => 'Surel ini sudah terdaftar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.min' => 'Kata sandi minimal harus terdiri dari 8 karakter.',
         ]);
 
         $user = User::create([
@@ -134,5 +134,37 @@ class AuthController extends Controller
         }
 
         return redirect('/');
+    }
+
+    /**
+     * Display the forgot password form.
+     */
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    /**
+     * Process forgot password request (simulation).
+     */
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ], [
+            'email.required' => 'Alamat surel wajib diisi.',
+            'email.email' => 'Format surel tidak valid.',
+        ]);
+
+        // Simulating checking if the user exists
+        $userExists = User::where('email', $request->email)->exists();
+
+        if (!$userExists) {
+            return back()->withErrors([
+                'email' => 'Alamat surel tidak terdaftar dalam sistem kami.',
+            ])->withInput();
+        }
+
+        return back()->with('status', 'Kami telah mengirimkan tautan atur ulang kata sandi ke surel Anda!');
     }
 }

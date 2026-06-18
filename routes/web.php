@@ -12,6 +12,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/lupa-kata-sandi', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/lupa-kata-sandi', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 
 Route::get('/', function () {
     $featuredProperties = \App\Models\Property::orderBy('stars', 'desc')->take(3)->get();

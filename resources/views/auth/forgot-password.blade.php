@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Managee - Daftar')
+@section('title', 'Managee - Lupa Kata Sandi')
 
 @section('content')
 <style>
@@ -55,6 +55,7 @@
         font-size: 0.9rem;
         color: var(--text-light-slate);
         margin: 0;
+        line-height: 1.5;
     }
 
     /* Form Styles */
@@ -62,7 +63,7 @@
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
     }
 
     .form-group label {
@@ -99,7 +100,7 @@
 
     .btn-auth-submit {
         width: 100%;
-        background-color: var(--emerald-primary);
+        background-color: var(--secondary-gold);
         color: #FFFFFF;
         border: none;
         padding: 0.9rem 2rem;
@@ -109,12 +110,11 @@
         border-radius: 9999px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(26, 60, 52, 0.15);
-        margin-top: 1rem;
+        box-shadow: 0 4px 12px rgba(202, 138, 4, 0.2);
     }
 
     .btn-auth-submit:hover {
-        background-color: var(--emerald-light);
+        background-color: var(--secondary-gold-light);
         transform: translateY(-1px);
     }
 
@@ -134,56 +134,53 @@
     .auth-footer a:hover {
         text-decoration: underline;
     }
+
+    .alert-success-container {
+        background-color: #F0FDF4;
+        border: 1px solid #BBF7D0;
+        color: #16A34A;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+    }
 </style>
 
 <div class="auth-page-container">
     <div class="auth-card">
         
         <div class="auth-header">
-            <h1 class="auth-title">Daftar Akun</h1>
-            <p class="auth-subtitle">Mulai petualangan sewa properti Anda bersama Managee</p>
+            <h1 class="auth-title">Lupa Kata Sandi</h1>
+            <p class="auth-subtitle">Masukkan alamat surel Anda untuk menerima tautan atur ulang kata sandi</p>
         </div>
 
-        <!-- Register Form -->
-        <form action="{{ route('register.post') }}" method="POST">
+        @if(session('status'))
+            <div class="alert-success-container">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <!-- Forgot Password Form -->
+        <form action="{{ route('password.email') }}" method="POST">
             @csrf
 
             <div class="form-group">
-                <label for="name">Nama Lengkap <span style="color: #E53E3E;">*</span></label>
-                <input type="text" name="name" id="name" class="form-input" placeholder="Masukkan nama lengkap Anda" value="{{ old('name') }}" required autofocus>
-                @error('name')
-                    <span class="form-error">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
                 <label for="email">Alamat Surel <span style="color: #E53E3E;">*</span></label>
-                <input type="email" name="email" id="email" class="form-input" placeholder="surel@contoh.com" value="{{ old('email') }}" required>
+                <input type="email" name="email" id="email" class="form-input" placeholder="surel@contoh.com" value="{{ old('email') }}" required autofocus>
                 @error('email')
                     <span class="form-error">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="password">Kata Sandi <span style="color: #E53E3E;">*</span></label>
-                <input type="password" name="password" id="password" class="form-input" placeholder="Minimal 8 karakter" required>
-                @error('password')
-                    <span class="form-error">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="password_confirmation">Konfirmasi Kata Sandi <span style="color: #E53E3E;">*</span></label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="form-input" placeholder="Masukkan kembali kata sandi" required>
-            </div>
-
             <button type="submit" class="btn-auth-submit">
-                Daftar
+                Kirim Tautan Atur Ulang
             </button>
         </form>
 
         <div class="auth-footer">
-            Sudah memiliki akun? <a href="/login">Masuk disini</a>
+            Kembali ke halaman <a href="/login">Masuk</a>
         </div>
 
     </div>

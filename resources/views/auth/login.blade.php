@@ -243,8 +243,8 @@
             <input type="hidden" name="role" id="role-input" value="{{ old('role', 'user') }}">
 
             <div class="form-group">
-                <label for="email">Alamat Email <span style="color: #E53E3E;">*</span></label>
-                <input type="email" name="email" id="email" class="form-input" placeholder="Email@contoh.com" value="{{ old('email') }}" required autofocus>
+                <label for="email">Alamat Surel <span style="color: #E53E3E;">*</span></label>
+                <input type="email" name="email" id="email" class="form-input" placeholder="surel@contoh.com" value="{{ old('email') }}" required autofocus>
                 @error('email')
                     <span class="form-error">{{ $message }}</span>
                 @enderror
@@ -263,7 +263,7 @@
                     <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
                     <span>Ingat Saya</span>
                 </label>
-                <a href="#" class="forgot-link">Lupa Kata Sandi?</a>
+                <a href="{{ route('password.request') }}" class="forgot-link">Lupa Kata Sandi?</a>
             </div>
 
             <button type="submit" class="btn-auth-submit">
