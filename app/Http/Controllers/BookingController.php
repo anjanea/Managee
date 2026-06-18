@@ -98,11 +98,15 @@ class BookingController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama wajib diisi.',
-            'email.required' => 'Alamat email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email ini sudah terdaftar.',
-            'password.min' => 'Sandi baru minimal harus 8 karakter.',
-            'password.confirmed' => 'Konfirmasi sandi baru tidak cocok.',
+            'email.required' => 'Alamat surel wajib diisi.',
+            'email.email' => 'Format surel tidak valid.',
+            'email.unique' => 'Surel ini sudah terdaftar.',
+            'password.min' => 'Kata sandi baru minimal harus 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi baru tidak cocok.',
+        ], [
+            'name' => 'nama lengkap',
+            'email' => 'alamat surel',
+            'password' => 'kata sandi baru',
         ]);
 
         $user->name = $request->input('name');

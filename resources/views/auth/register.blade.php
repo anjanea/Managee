@@ -141,7 +141,7 @@
         
         <div class="auth-header">
             <h1 class="auth-title">Daftar Akun</h1>
-            <p class="auth-subtitle">Mulai petualangan sewa properti Anda bersama Managee</p>
+            <p class="auth-subtitle">Daftar di Managee untuk sewa properti impian anda</p>
         </div>
 
         <!-- Register Form -->

@@ -205,15 +205,7 @@
             </div>
         @endif
 
-        @if($errors->any())
-            <div style="background-color: #FDE8E8; border: 1px solid #F8B4B4; color: #9B1C1C; padding: 1rem 1.5rem; border-radius: 12px; max-width: 680px; margin: 0 auto 2rem auto; font-weight: 600;">
-                <ul style="margin: 0; padding-left: 1rem;">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+
 
         <div class="profile-card">
             <!-- Accent banner header -->
@@ -243,18 +235,27 @@
                         <div class="form-group form-group-full">
                             <label for="name">Nama Lengkap</label>
                             <input type="text" id="name" name="name" class="form-input" value="{{ old('name', $user->name) }}" placeholder="Contoh: Budi Santoso">
+                            @error('name')
+                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Email -->
                         <div class="form-group">
                             <label for="email">Alamat Surel</label>
                             <input type="email" id="email" name="email" class="form-input" value="{{ old('email', $user->email) }}" placeholder="budi@surel.com">
+                            @error('email')
+                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Telepon -->
                         <div class="form-group">
                             <label for="phone">Nomor Telepon</label>
                             <input type="text" id="phone" name="phone" class="form-input" value="{{ old('phone', $user->phone) }}" placeholder="Contoh: 081234567890">
+                            @error('phone')
+                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
@@ -264,6 +265,9 @@
                         <div class="form-group">
                             <label for="password">Kata Sandi Baru</label>
                             <input type="password" id="password" name="password" class="form-input" placeholder="Isi hanya jika ingin mengubah">
+                            @error('password')
+                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Konfirmasi Sandi baru -->
