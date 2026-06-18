@@ -168,7 +168,7 @@
 
             <div class="form-group">
                 <label for="email">Alamat Surel <span style="color: #E53E3E;">*</span></label>
-                <input type="email" name="email" id="email" class="form-input" placeholder="surel@contoh.com" value="{{ old('email') }}" required autofocus>
+                <input type="email" name="email" id="email" class="form-input" placeholder="surel@contoh.com" value="{{ old('email') }}" required autofocus oninvalid="this.setCustomValidity(this.validity.typeMismatch ? 'Harap masukkan alamat surel yang valid dengan menyertakan \'@\'.' : (this.validity.valueMissing ? 'Alamat surel wajib diisi.' : ''))" oninput="this.setCustomValidity('')">
                 @error('email')
                     <span class="form-error">{{ $message }}</span>
                 @enderror
