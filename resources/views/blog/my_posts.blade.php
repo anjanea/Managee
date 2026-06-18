@@ -151,7 +151,6 @@
         display: flex;
         flex-direction: column;
         gap: 0.35rem;
-        padding-right: 120px; /* Leave space for actions */
     }
 
     .row-title {
@@ -174,10 +173,9 @@
     }
 
     .row-actions {
-        position: absolute;
-        right: 1.25rem;
         display: flex;
         gap: 0.5rem;
+        flex-shrink: 0;
     }
 
     .action-btn {
@@ -214,13 +212,24 @@
         color: #FFFFFF;
     }
 
-    .empty-state {
-        text-align: center;
-        padding: 5rem 2rem;
-        background-color: var(--card-bg);
-        border-radius: 16px;
-        border: 1px dashed var(--border-color);
-        margin-top: 1rem;
+    @media (max-width: 768px) {
+        .compact-blog-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            position: relative;
+        }
+        .row-image {
+            width: 100%;
+            height: 160px;
+        }
+        .row-actions {
+            width: 100%;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+        }
     }
 </style>
 
@@ -272,8 +281,12 @@
                         <div class="row-content">
                             <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                                 <span class="badge {{ $badgeClass }}">{{ $post->category }}</span>
-                                <span style="font-size: 0.75rem; color: var(--text-light-slate);">
-                                    👁️ {{ $post->views }} Kali Dilihat • 📅 {{ $post->created_at ? $post->created_at->translatedFormat("d M Y") : "Baru Saja" }}
+                                <span style="font-size: 0.75rem; color: var(--text-light-slate); display: inline-flex; align-items: center; gap: 0.25rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                    <span>{{ $post->views }} Kali Dilihat</span>
+                                    <span style="margin: 0 0.25rem;">•</span>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                    <span>{{ $post->created_at ? $post->created_at->translatedFormat("d M Y") : "Baru Saja" }}</span>
                                 </span>
                             </div>
                             <h3 class="row-title">{{ $post->title }}</h3>
