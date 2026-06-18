@@ -112,24 +112,24 @@
                 <table class="owner-table" style="width: 100%; border-collapse: collapse; text-align: left;">
                     <thead>
                         <tr style="border-bottom: 2px solid var(--border); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted);">
-                            <th style="padding: 0.75rem 0;">Penyewa</th>
-                            <th>Properti</th>
-                            <th>Tanggal</th>
-                            <th>Harga</th>
-                            <th>Status</th>
-                            <th style="text-align: right;">Aksi</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Penyewa</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Properti</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Tanggal</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Harga</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Status</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: right;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($recentBookings as $booking)
                         <tr style="border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0;">{{ $booking->user->name }}</td>
-                            <td>{{ $booking->property->title }}</td>
-                            <td style="font-size: 0.9rem; color: var(--text-muted);">
+                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0.5rem; text-align: left; vertical-align: middle;">{{ $booking->user->name }}</td>
+                            <td style="padding: 1rem 0.5rem; text-align: left; vertical-align: middle;">{{ $booking->property->title }}</td>
+                            <td style="font-size: 0.9rem; color: var(--text-muted); padding: 1rem 0.5rem; text-align: left; vertical-align: middle; white-space: nowrap;">
                                 {{ \Carbon\Carbon::parse($booking->checkin_date)->format('d M') }} - {{ \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y') }}
                             </td>
-                            <td style="font-weight: 600; color: var(--primary);">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
-                            <td>
+                            <td style="font-weight: 600; color: var(--primary); padding: 1rem 0.5rem; text-align: left; vertical-align: middle; white-space: nowrap;">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
+                            <td style="padding: 1rem 0.5rem; text-align: left; vertical-align: middle;">
                                 @if($booking->status === 'Selesai')
                                     <span class="badge badge-success" style="background-color: rgba(34, 197, 94, 0.1); color: #166534; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">Selesai</span>
                                 @elseif($booking->status === 'Dikonfirmasi')
