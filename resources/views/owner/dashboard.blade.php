@@ -57,7 +57,6 @@
     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem;">
         <div>
             <h4 style="margin: 0; color: var(--primary);">Analisis Kunjungan & Performa Iklan</h4>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.15rem; font-weight: 500; margin-bottom: 0;">Pantau aktivitas mingguan performa iklan sewa Anda</p>
         </div>
         <div style="display: flex; gap: 0.5rem;">
             <span style="font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.75rem; background: var(--primary); color: white; border-radius: var(--radius-md);">7 Hari Terakhir</span>
@@ -65,7 +64,7 @@
     </div>
     <div class="card-body" style="padding: 1.5rem 2rem;">
         <div style="width: 100%; height: 200px; position: relative;">
-            <svg viewBox="0 0 100 20" style="width: 100%; height: 160px; overflow: visible;">
+            <svg viewBox="0 0 100 25" style="width: 100%; height: 180px; overflow: visible;">
                 <!-- Grids -->
                 <line x1="0" y1="0" x2="100" y2="0" stroke="#f1f5f9" stroke-width="0.3" />
                 <line x1="0" y1="5" x2="100" y2="5" stroke="#f1f5f9" stroke-width="0.3" />
@@ -73,10 +72,10 @@
                 <line x1="0" y1="15" x2="100" y2="15" stroke="#f1f5f9" stroke-width="0.3" />
                 <line x1="0" y1="20" x2="100" y2="20" stroke="#e2e8f0" stroke-width="0.5" />
                 
-                <!-- Line path -->
-                <path d="M 0 16 Q 16.6 12 16.6 12 T 33.3 15 T 50 8 T 66.6 11 T 83.3 4 T 100 7" fill="none" stroke="var(--primary)" stroke-width="0.8" stroke-linecap="round" />
+                <!-- Line path (Formal straight lines) -->
+                <path d="M 0 16 L 16.6 12 L 33.3 15 L 50 8 L 66.6 11 L 83.3 4 L 100 7" fill="none" stroke="var(--primary)" stroke-width="0.8" stroke-linecap="round" />
                 <!-- Shading -->
-                <path d="M 0 16 Q 16.6 12 16.6 12 T 33.3 15 T 50 8 T 66.6 11 T 83.3 4 T 100 7 L 100 20 L 0 20 Z" fill="rgba(26, 60, 52, 0.05)" />
+                <path d="M 0 16 L 16.6 12 L 33.3 15 L 50 8 L 66.6 11 L 83.3 4 L 100 7 L 100 20 L 0 20 Z" fill="rgba(26, 60, 52, 0.05)" />
                 
                 <!-- Dots -->
                 <circle cx="0" cy="16" r="0.8" fill="var(--primary)" stroke="white" stroke-width="0.2" />
@@ -86,16 +85,16 @@
                 <circle cx="66.6" cy="11" r="0.8" fill="var(--primary)" stroke="white" stroke-width="0.2" />
                 <circle cx="83.3" cy="4" r="0.8" fill="var(--primary)" stroke="white" stroke-width="0.2" />
                 <circle cx="100" cy="7" r="0.8" fill="var(--primary)" stroke="white" stroke-width="0.2" />
+
+                <!-- X Axis Text Labels perfectly aligned inside the SVG grid system -->
+                <text x="0" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Senin</text>
+                <text x="16.6" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Selasa</text>
+                <text x="33.3" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Rabu</text>
+                <text x="50" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Kamis</text>
+                <text x="66.6" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Jumat</text>
+                <text x="83.3" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Sabtu</text>
+                <text x="100" y="24" font-size="2.2" font-weight="600" fill="#64748b" text-anchor="middle" font-family="'Outfit', sans-serif">Minggu</text>
             </svg>
-            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">
-                <span>Senin</span>
-                <span>Selasa</span>
-                <span>Rabu</span>
-                <span>Kamis</span>
-                <span>Jumat</span>
-                <span>Sabtu</span>
-                <span>Minggu</span>
-            </div>
         </div>
     </div>
 </div>
