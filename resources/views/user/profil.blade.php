@@ -226,7 +226,7 @@
 
             <!-- Profile Form -->
             <div class="profile-body">
-                <form action="{{ route('user.profile.update') }}" method="POST">
+                <form action="{{ route('user.profile.update') }}" method="POST" id="profile-form">
                     @csrf
                     
                     <h3 class="section-title">Informasi Pribadi</h3>
@@ -234,18 +234,22 @@
                         <!-- Nama Lengkap -->
                         <div class="form-group form-group-full">
                             <label for="name">Nama Lengkap</label>
-                            <input type="text" id="name" name="name" class="form-input" value="{{ old('name', $user->name) }}" placeholder="Contoh: Budi Santoso">
+                            <input type="text" id="name" name="name" class="form-input" value="{{ old('name', $user->name) }}" placeholder="Contoh: Budi Santoso" required>
+                            <span id="js-error-name" class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem; display: none;"></span>
                             @error('name')
-                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                                <span class="form-error server-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Email -->
                         <div class="form-group">
                             <label for="email">Alamat Surel</label>
-                            <input type="email" id="email" name="email" class="form-input" value="{{ old('email', $user->email) }}" placeholder="budi@surel.com">
+                            <input type="email" id="email" name="email" class="form-input" value="{{ old('email', $user->email) }}" placeholder="budi@surel.com" required
+                                   oninvalid="this.setCustomValidity(this.validity.typeMismatch ? 'Harap masukkan alamat surel yang valid dengan menyertakan \'@\'.' : (this.validity.valueMissing ? 'Alamat surel wajib diisi.' : ''))" 
+                                   oninput="this.setCustomValidity('')">
+                            <span id="js-error-email" class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem; display: none;"></span>
                             @error('email')
-                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                                <span class="form-error server-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -253,8 +257,9 @@
                         <div class="form-group">
                             <label for="phone">Nomor Telepon</label>
                             <input type="text" id="phone" name="phone" class="form-input" value="{{ old('phone', $user->phone) }}" placeholder="Contoh: 081234567890">
+                            <span id="js-error-phone" class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem; display: none;"></span>
                             @error('phone')
-                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                                <span class="form-error server-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -265,8 +270,9 @@
                         <div class="form-group">
                             <label for="password">Kata Sandi Baru</label>
                             <input type="password" id="password" name="password" class="form-input" placeholder="Isi hanya jika ingin mengubah">
+                            <span id="js-error-password" class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem; display: none;"></span>
                             @error('password')
-                                <span class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
+                                <span class="form-error server-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem;">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -274,6 +280,7 @@
                         <div class="form-group">
                             <label for="password_confirmation">Konfirmasi Kata Sandi Baru</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="Ulangi kata sandi baru">
+                            <span id="js-error-password_confirmation" class="form-error" style="color: #E53E3E; font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; margin-left: 0.25rem; display: none;"></span>
                         </div>
                     </div>
 
@@ -288,4 +295,132 @@
 
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('profile-form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('password_confirmation');
+
+        // Spans
+        const errName = document.getElementById('js-error-name');
+        const errEmail = document.getElementById('js-error-email');
+        const errPhone = document.getElementById('js-error-phone');
+        const errPassword = document.getElementById('js-error-password');
+        const errConfirm = document.getElementById('js-error-password_confirmation');
+
+        function clearServerErrors() {
+            document.querySelectorAll('.server-error').forEach(el => el.style.display = 'none');
+        }
+
+        // Live Validation on input / keyup
+        nameInput.addEventListener('input', function() {
+            clearServerErrors();
+            if (nameInput.value.trim() === '') {
+                errName.textContent = 'Nama lengkap wajib diisi.';
+                errName.style.display = 'block';
+            } else {
+                errName.style.display = 'none';
+            }
+        });
+
+        emailInput.addEventListener('input', function() {
+            clearServerErrors();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailInput.value.trim() === '') {
+                errEmail.textContent = 'Alamat surel wajib diisi.';
+                errEmail.style.display = 'block';
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                errEmail.textContent = 'Format surel tidak valid.';
+                errEmail.style.display = 'block';
+            } else {
+                errEmail.style.display = 'none';
+            }
+        });
+
+        passwordInput.addEventListener('input', function() {
+            clearServerErrors();
+            const val = passwordInput.value;
+            if (val.length > 0 && val.length < 8) {
+                errPassword.textContent = 'Kata sandi baru minimal harus 8 karakter.';
+                errPassword.style.display = 'block';
+            } else {
+                errPassword.style.display = 'none';
+            }
+
+            // Also check confirmation matching if it has value
+            if (passwordConfirmInput.value.length > 0) {
+                if (val !== passwordConfirmInput.value) {
+                    errConfirm.textContent = 'Konfirmasi kata sandi baru tidak cocok.';
+                    errConfirm.style.display = 'block';
+                } else {
+                    errConfirm.style.display = 'none';
+                }
+            }
+        });
+
+        passwordConfirmInput.addEventListener('input', function() {
+            clearServerErrors();
+            if (passwordInput.value !== passwordConfirmInput.value) {
+                errConfirm.textContent = 'Konfirmasi kata sandi baru tidak cocok.';
+                errConfirm.style.display = 'block';
+            } else {
+                errConfirm.style.display = 'none';
+            }
+        });
+
+        // Form Submit interception
+        form.addEventListener('submit', function(e) {
+            clearServerErrors();
+            let hasError = false;
+
+            // Validate Name
+            if (nameInput.value.trim() === '') {
+                errName.textContent = 'Nama lengkap wajib diisi.';
+                errName.style.display = 'block';
+                hasError = true;
+            }
+
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailInput.value.trim() === '') {
+                errEmail.textContent = 'Alamat surel wajib diisi.';
+                errEmail.style.display = 'block';
+                hasError = true;
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                errEmail.textContent = 'Format surel tidak valid.';
+                errEmail.style.display = 'block';
+                hasError = true;
+            }
+
+            // Validate Password
+            const pwdVal = passwordInput.value;
+            if (pwdVal.length > 0) {
+                if (pwdVal.length < 8) {
+                    errPassword.textContent = 'Kata sandi baru minimal harus 8 karakter.';
+                    errPassword.style.display = 'block';
+                    hasError = true;
+                }
+
+                if (pwdVal !== passwordConfirmInput.value) {
+                    errConfirm.textContent = 'Konfirmasi kata sandi baru tidak cocok.';
+                    errConfirm.style.display = 'block';
+                    hasError = true;
+                }
+            }
+
+            if (hasError) {
+                e.preventDefault(); // Stop form submission
+                // Scroll to the first error
+                const firstError = document.querySelector('.form-error[style*="display: block"]');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+    });
+</script>
 @endsection
