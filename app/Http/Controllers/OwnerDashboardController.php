@@ -14,7 +14,7 @@ class OwnerDashboardController extends Controller
         $stats = [
             'properties_count' => Property::count(),
             'bookings_count' => \App\Models\Booking::whereIn('status', ['Menunggu', 'Dikonfirmasi'])->count(),
-            'articles_count' => BlogPost::count(),
+            'articles_count' => BlogPost::where('is_own', true)->count(),
             'views_count' => Property::sum('views'),
         ];
 
