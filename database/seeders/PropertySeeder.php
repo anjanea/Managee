@@ -19,7 +19,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Apartemen Chilitown',
                 'type' => 'apartemen',
-                'price' => 6500000,
+                'price' => 650000,
                 'stars' => 5,
                 'address' => 'Jl. Kembar No 45, Denpasar, Bali',
                 'location' => 'Denpasar, Bali',
@@ -39,7 +39,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Villa Karangasem',
                 'type' => 'villa',
-                'price' => 14000000,
+                'price' => 1400000,
                 'stars' => 4,
                 'address' => 'Jl. Raya Besakih No. 10, Karangasem, Bali',
                 'location' => 'Karangasem, Bali',
@@ -59,7 +59,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Rumah Modern Ubud',
                 'type' => 'rumah',
-                'price' => 7500000,
+                'price' => 750000,
                 'stars' => 4,
                 'address' => 'Jl. Kembar No 45, Mas, Ubud, Bali',
                 'location' => 'Ubud, Bali',
@@ -79,7 +79,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Apartemen Denpasar Heights',
                 'type' => 'apartemen',
-                'price' => 4800000,
+                'price' => 480000,
                 'stars' => 4,
                 'address' => 'Jl. Raya Puputan No. 100, Renon, Denpasar, Bali',
                 'location' => 'Denpasar, Bali',
@@ -99,7 +99,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Villa Arity Ubud Tepi',
                 'type' => 'villa',
-                'price' => 22000000,
+                'price' => 2200000,
                 'stars' => 4,
                 'address' => 'Jl. Nakula No 66, Ubud, Bali',
                 'location' => 'Ubud, Bali',
@@ -119,7 +119,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Rumah Minimalis Canggu',
                 'type' => 'rumah',
-                'price' => 8500000,
+                'price' => 850000,
                 'stars' => 4,
                 'address' => 'Jl. Pantai Batu Bolong No. 12, Canggu, Badung, Bali',
                 'location' => 'Canggu, Bali',
@@ -139,7 +139,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Apartemen Ghilthon',
                 'type' => 'apartemen',
-                'price' => 5500000,
+                'price' => 550000,
                 'stars' => 4,
                 'address' => 'Jl. Kembar No 45, Denpasar, Bali',
                 'location' => 'Denpasar, Bali',
@@ -159,7 +159,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Villa Canggu',
                 'type' => 'villa',
-                'price' => 28000000,
+                'price' => 2800000,
                 'stars' => 5,
                 'address' => 'Jl. Pantai Batu Belig No. 8, Canggu, Badung, Bali',
                 'location' => 'Canggu, Bali',
@@ -179,7 +179,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Rumah Minimalis Ubud',
                 'type' => 'rumah',
-                'price' => 6000000,
+                'price' => 600000,
                 'stars' => 5,
                 'address' => 'Jl. Kamboja No 40, Ubud, Bali',
                 'location' => 'Ubud, Bali',
@@ -199,7 +199,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Apartemen Signature Jimbaran',
                 'type' => 'apartemen',
-                'price' => 25000000,
+                'price' => 2500000,
                 'stars' => 5,
                 'address' => 'Kawasan ITDC Lot N5, Jimbaran, Bali',
                 'location' => 'Jimbaran, Bali',
@@ -219,7 +219,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Villa Uluwatu Cliffside',
                 'type' => 'villa',
-                'price' => 45000000,
+                'price' => 4500000,
                 'stars' => 5,
                 'address' => 'Pecatu, Kuta Selatan, Badung, Bali',
                 'location' => 'Uluwatu, Bali',
@@ -239,10 +239,10 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Rumah Modern Sanur',
                 'type' => 'rumah',
-                'price' => 9500000,
+                'price' => 950000,
                 'stars' => 4,
                 'address' => 'Jl. Danau Tamblingan No. 24, Sanur, Bali',
-                'location' => 'Denpasar, Bali',
+                'location' => 'Sanur, Bali',
                 'image' => 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&q=80&w=600',
                 'description' => 'Rumah tinggal keluarga modern di kawasan tenang Sanur. Keamanan 24 jam dengan sistem satu pintu masuk (one-gate system), lingkungan sangat ramah anak, dan dekat dengan pantai matahari terbit.',
                 'bedrooms' => 3,
@@ -259,10 +259,10 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Apartemen Cozy Kuta',
                 'type' => 'apartemen',
-                'price' => 4000000,
+                'price' => 400000,
                 'stars' => 3,
                 'address' => 'Jl. Raya Kuta No. 88, Kuta, Bali',
-                'location' => 'Badung, Bali',
+                'location' => 'Kuta, Bali',
                 'image' => 'https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&q=80&w=600',
                 'description' => 'Unit apartemen tipe studio yang nyaman dan terjangkau di pusat wisata Kuta. Dekat dengan pantai, tempat kuliner, dan akses bandara, sangat cocok untuk tempat hunian wisatawan panjang.',
                 'bedrooms' => 1,
@@ -279,7 +279,7 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Villa Seminyak Garden',
                 'type' => 'villa',
-                'price' => 18000000,
+                'price' => 1800000,
                 'stars' => 4,
                 'address' => 'Jl. Drupadi No 10X, Seminyak, Bali',
                 'location' => 'Seminyak, Bali',
@@ -299,10 +299,10 @@ class PropertySeeder extends Seeder
             [
                 'title' => 'Rumah Kayu Kintamani',
                 'type' => 'rumah',
-                'price' => 5000000,
+                'price' => 500000,
                 'stars' => 4,
                 'address' => 'Jl. Raya Penelokan, Kintamani, Bali',
-                'location' => 'Bangli, Bali',
+                'location' => 'Kintamani, Bali',
                 'image' => 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&q=80&w=600',
                 'description' => 'Rumah kayu berkonsep villa etnik Jawa di kawasan berudara sangat sejuk Kintamani, Bali. Dikelilingi pemandangan Gunung Batur yang megah, sangat syahdu untuk menenangkan pikiran.',
                 'bedrooms' => 2,
