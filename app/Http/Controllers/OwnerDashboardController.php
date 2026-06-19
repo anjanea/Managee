@@ -450,7 +450,7 @@ class OwnerDashboardController extends Controller
                 [
                     'tanggal' => '08 Jun 2026',
                     'tipe' => 'Pemasukan',
-                    'deskripsi' => 'Pemasanan #b1 - Rudi Hermawan (Apartemen Chilitown)',
+                    'deskripsi' => 'Pemesanan #b1 - Rudi Hermawan (Apartemen Chilitown)',
                     'jumlah' => 12500000,
                     'status' => 'Selesai'
                 ],
@@ -464,7 +464,7 @@ class OwnerDashboardController extends Controller
                 [
                     'tanggal' => '25 Mei 2026',
                     'tipe' => 'Pemasukan',
-                    'deskripsi' => 'Pemasanan #b4 - Andi Wijaya (Villa Canggu)',
+                    'deskripsi' => 'Pemesanan #b4 - Andi Wijaya (Villa Canggu)',
                     'jumlah' => 12000000,
                     'status' => 'Selesai'
                 ],

@@ -58,29 +58,29 @@
                 <table class="owner-table" style="width: 100%; border-collapse: collapse; text-align: left;">
                     <thead>
                         <tr style="border-bottom: 2px solid var(--border); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted);">
-                            <th style="padding: 0.75rem 0;">Tanggal</th>
-                            <th>Tipe</th>
-                            <th>Deskripsi</th>
-                            <th>Jumlah (IDR)</th>
-                            <th style="text-align: right;">Status</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Tanggal</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Tipe</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Deskripsi</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Jumlah (IDR)</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: right;">Status</th>
                         </tr>
                     </thead>
                     <tbody id="transaction-tbody">
                         @foreach($keuangan['riwayat_transaksi'] as $tx)
                         <tr class="tx-row" data-type="{{ strpos($tx['tipe'], 'Penarikan') !== false ? 'penarikan' : 'pemasukan' }}" style="border-bottom: 1px solid var(--border); font-size: 0.95rem; transition: var(--transition);">
-                            <td style="padding: 1rem 0; color: var(--text-muted);">{{ $tx['tanggal'] }}</td>
-                            <td>
+                            <td style="padding: 1rem 0.5rem; color: var(--text-muted);">{{ $tx['tanggal'] }}</td>
+                            <td style="padding: 1rem 0.5rem;">
                                 <span style="font-weight: 600; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; 
                                     background: {{ $tx['tipe'] == 'Pemasukan' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(59, 130, 246, 0.1)' }}; 
                                     color: {{ $tx['tipe'] == 'Pemasukan' ? '#22c55e' : '#3b82f6' }};">
                                     {{ $tx['tipe'] }}
                                 </span>
                             </td>
-                            <td style="font-weight: 500; color: var(--text-main);">{{ $tx['deskripsi'] }}</td>
-                            <td style="font-weight: 600; color: {{ $tx['jumlah'] > 0 ? '#22c55e' : '#ef4444' }};">
+                            <td style="padding: 1rem 0.5rem; font-weight: 500; color: var(--text-main);">{{ $tx['deskripsi'] }}</td>
+                            <td style="padding: 1rem 0.5rem; font-weight: 600; color: {{ $tx['jumlah'] > 0 ? '#22c55e' : '#ef4444' }};">
                                 {{ $tx['jumlah'] > 0 ? '+' : '' }}Rp {{ number_format($tx['jumlah'], 0, ',', '.') }}
                             </td>
-                            <td style="text-align: right;">
+                            <td style="padding: 1rem 0.5rem; text-align: right;">
                                 <span style="font-weight: 600; font-size: 0.8rem; color: #22c55e;">
                                     ● {{ $tx['status'] }}
                                 </span>
