@@ -80,8 +80,8 @@
                             <td style="padding: 1rem 0.5rem; font-weight: 600; color: {{ $tx['jumlah'] > 0 ? '#22c55e' : '#ef4444' }};">
                                 {{ $tx['jumlah'] > 0 ? '+' : '' }}Rp {{ number_format($tx['jumlah'], 0, ',', '.') }}
                             </td>
-                            <td style="padding: 1rem 0.5rem; text-align: right;">
-                                <span style="font-weight: 600; font-size: 0.8rem; color: #22c55e;">
+                            <td style="padding: 1rem 0.5rem; text-align: right; white-space: nowrap;">
+                                <span style="font-weight: 600; font-size: 0.75rem; color: #22c55e; white-space: nowrap; display: inline-block;">
                                     ● {{ $tx['status'] }}
                                 </span>
                             </td>
