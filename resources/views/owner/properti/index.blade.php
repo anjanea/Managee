@@ -5,6 +5,42 @@
 
 @section('content')
 
+<style>
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+.btn-action-detail {
+    border: 1px solid var(--primary) !important;
+    color: var(--primary) !important;
+    background: transparent !important;
+}
+.btn-action-detail:hover {
+    background: var(--primary) !important;
+    color: #ffffff !important;
+}
+.btn-action-edit {
+    border: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+    background: transparent !important;
+}
+.btn-action-edit:hover {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+}
+.btn-action-delete {
+    border: 1px solid #fecaca !important;
+    color: #ef4444 !important;
+    background: transparent !important;
+}
+.btn-action-delete:hover {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+</style>
+
 @if(session('success'))
     <div class="owner-alert owner-alert-success" style="margin-bottom: 2rem;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 8 12 12 16"></polyline><line x1="16" y1="12" x2="8" y2="12"></line></svg>
@@ -79,13 +115,9 @@
                             </td>
                             <td>
                                 <div style="display: flex; gap: 0.5rem; align-items: center;">
-                                    <a href="{{ route('owner.properties.show', $property->id) }}" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none; border-color: var(--primary); color: var(--primary);">Detail</a>
-                                    <a href="{{ route('owner.properties.edit', $property->id) }}" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">Ubah</a>
-                                    <form action="{{ route('owner.properties.destroy', $property->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus properti ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; color: #ef4444; border-color: #fecaca;">Hapus</button>
-                                    </form>
+                                    <a href="{{ route('owner.properties.show', $property->id) }}" class="btn btn-action-detail" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">Detail</a>
+                                    <a href="{{ route('owner.properties.edit', $property->id) }}" class="btn btn-action-edit" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; text-decoration: none;">Ubah</a>
+                                    <button type="button" onclick="confirmDeleteProperty('{{ $property->id }}', '{{ addslashes($property->title) }}')" class="btn btn-action-delete" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; cursor: pointer;">Hapus</button>
                                 </div>
                             </td>
                         </tr>
@@ -133,7 +165,45 @@
     </div>
 </div>
 
+<div id="delete-property-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: #FFFFFF; border-radius: 16px; padding: 2rem; max-width: 450px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); text-align: center; border: 1px solid var(--border); animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <!-- Warning Icon -->
+        <div style="background: #FEE2E2; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto; color: #EF4444;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Konfirmasi Hapus Properti</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;">
+            Apakah Anda yakin ingin menghapus properti <strong id="delete-property-title-modal" style="color: var(--text-main);"></strong>? Data sewa dan ulasan terkait properti ini juga akan terpengaruh. Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div style="display: flex; gap: 0.75rem; justify-content: center;">
+            <button type="button" onclick="closeDeleteModal()" class="btn" style="background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border); padding: 0.6rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; font-size: 0.9rem;">Batal</button>
+            <form id="delete-property-form" action="" method="POST" style="margin: 0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn" style="background: #ef4444; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; font-size: 0.9rem;">Ya, Hapus</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+let deleteFormActionUrl = '';
+
+function confirmDeleteProperty(id, title) {
+    const form = document.getElementById('delete-property-form');
+    form.action = `/owner/properties/${id}`;
+    document.getElementById('delete-property-title-modal').textContent = title;
+    document.getElementById('delete-property-modal').style.display = 'flex';
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-property-modal').style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-properti');
     const tableRows = document.querySelectorAll('.owner-table tbody tr');
