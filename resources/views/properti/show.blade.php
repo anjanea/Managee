@@ -1410,11 +1410,11 @@
             errorDiv.textContent = "Tanggal keluar harus setelah tanggal masuk!";
             errorDiv.style.display = 'block';
             
-            // Reset checkout to next day
-            const nextDay = new Date(checkinDate);
-            nextDay.setDate(nextDay.getDate() + 1);
-            document.getElementById('checkout').value = formatDate(nextDay);
-            calculateTotal();
+            document.getElementById('label-nights').textContent = `Harga Sewa (0 malam)`;
+            document.getElementById('price-rent').textContent = `Rp 0`;
+            document.getElementById('price-service').textContent = `Rp 0`;
+            document.getElementById('price-tax').textContent = `Rp 0`;
+            document.getElementById('price-total').textContent = `Rp 0`;
             return;
         } else {
             errorDiv.style.display = 'none';
@@ -1452,10 +1452,17 @@
             errorDiv.textContent = "Harap tentukan tanggal masuk dan keluar!";
             errorDiv.style.display = 'block';
             return;
-        } else {
-            errorDiv.style.display = 'none';
         }
 
+        const checkinDate = new Date(checkin);
+        const checkoutDate = new Date(checkout);
+        if (checkoutDate <= checkinDate) {
+            errorDiv.textContent = "Tanggal keluar harus setelah tanggal masuk!";
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        errorDiv.style.display = 'none';
         window.location = `/properti/{{ $property->id }}/checkout?checkin=${checkin}&checkout=${checkout}&guests=${guests}`;
     }
 
