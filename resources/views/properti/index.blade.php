@@ -177,29 +177,34 @@
             </div>
             
             <!-- Custom Pagination -->
-            <div class="custom-pagination">
-                {{-- Previous Page Link --}}
-                @if ($properties->onFirstPage())
-                    <span class="pagination-btn disabled">Sebelumnya</span>
-                @else
-                    <a href="{{ $properties->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
-                @endif
-
-                {{-- Pagination Pages --}}
-                @foreach ($properties->getUrlRange(1, $properties->lastPage()) as $page => $url)
-                    @if ($page == $properties->currentPage())
-                        <span class="pagination-number active">{{ $page }}</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; flex-wrap: wrap; gap: 1rem; width: 100%;">
+                <div style="font-size: 0.9rem; color: var(--text-light-slate); font-weight: 500;">
+                    Menampilkan {{ $properties->firstItem() ?: 0 }} - {{ $properties->lastItem() ?: 0 }} dari {{ $properties->total() }} properti
+                </div>
+                <div class="custom-pagination" style="margin-top: 0; margin-bottom: 0;">
+                    {{-- Previous Page Link --}}
+                    @if ($properties->onFirstPage())
+                        <span class="pagination-btn disabled">Sebelumnya</span>
                     @else
-                        <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                        <a href="{{ $properties->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
                     @endif
-                @endforeach
 
-                {{-- Next Page Link --}}
-                @if ($properties->hasMorePages())
-                    <a href="{{ $properties->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
-                @else
-                    <span class="pagination-btn disabled">Berikutnya</span>
-                @endif
+                    {{-- Pagination Pages --}}
+                    @foreach ($properties->getUrlRange(1, $properties->lastPage()) as $page => $url)
+                        @if ($page == $properties->currentPage())
+                            <span class="pagination-number active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($properties->hasMorePages())
+                        <a href="{{ $properties->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
+                    @else
+                        <span class="pagination-btn disabled">Berikutnya</span>
+                    @endif
+                </div>
             </div>
         @else
             <div style="text-align: center; padding: 5rem 0; color: var(--text-muted);">

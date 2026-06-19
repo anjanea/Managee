@@ -56,6 +56,9 @@
         <h4 style="margin: 0; color: var(--primary);">Daftar Seluruh Pemesanan</h4>
     </div>
     <div class="card-body" style="padding: 1.5rem;">
+        <div id="bookings-count-info" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 500;">
+            Menampilkan {{ count($bookings) }} dari {{ count($bookings) }} pemesanan
+        </div>
         <div class="table-responsive">
             <table class="owner-table">
                 <thead>
@@ -124,6 +127,8 @@
         const statusFilter = document.getElementById('booking-status-filter').value;
         
         const rows = document.querySelectorAll('.booking-row');
+        let visibleCount = 0;
+        const totalCount = rows.length;
         
         rows.forEach(row => {
             const prop = row.getAttribute('data-property');
@@ -134,11 +139,16 @@
             
             if (matchProp && matchStatus) {
                 row.style.display = '';
+                visibleCount++;
             } else {
                 row.style.display = 'none';
             }
         });
+
+        document.getElementById('bookings-count-info').textContent = `Menampilkan ${visibleCount} dari ${totalCount} pemesanan`;
     }
+
+    document.addEventListener('DOMContentLoaded', filterBookings);
 
     function approveBooking(id, propertyTitle) {
         document.getElementById('approve-form-' + id).submit();

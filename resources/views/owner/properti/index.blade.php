@@ -101,29 +101,34 @@
         </div>
 
         <!-- Custom Pagination -->
-        <div class="custom-pagination" style="margin-top: 2rem; justify-content: flex-start;">
-            {{-- Previous Page Link --}}
-            @if ($properties->onFirstPage())
-                <span class="pagination-btn disabled">Sebelumnya</span>
-            @else
-                <a href="{{ $properties->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
-            @endif
-
-            {{-- Pagination Pages --}}
-            @foreach ($properties->getUrlRange(1, $properties->lastPage()) as $page => $url)
-                @if ($page == $properties->currentPage())
-                    <span class="pagination-number active">{{ $page }}</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div id="properti-count-info" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                Menampilkan {{ $properties->firstItem() ?: 0 }} - {{ $properties->lastItem() ?: 0 }} dari {{ $properties->total() }} properti
+            </div>
+            <div class="custom-pagination" style="margin-top: 0; justify-content: flex-end;">
+                {{-- Previous Page Link --}}
+                @if ($properties->onFirstPage())
+                    <span class="pagination-btn disabled">Sebelumnya</span>
                 @else
-                    <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                    <a href="{{ $properties->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
                 @endif
-            @endforeach
 
-            {{-- Next Page Link --}}
-            @if ($properties->hasMorePages())
-                <a href="{{ $properties->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
-            @else
-                <span class="pagination-btn disabled">Berikutnya</span>
-            @endif
+                {{-- Pagination Pages --}}
+                @foreach ($properties->getUrlRange(1, $properties->lastPage()) as $page => $url)
+                    @if ($page == $properties->currentPage())
+                        <span class="pagination-number active">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($properties->hasMorePages())
+                    <a href="{{ $properties->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
+                @else
+                    <span class="pagination-btn disabled">Berikutnya</span>
+                @endif
+            </div>
         </div>
     </div>
 </div>
@@ -144,10 +149,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         searchInput.addEventListener('input', function() {
             const query = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+            let totalCount = 0;
             
             tableRows.forEach(row => {
                 // If it is the empty state row, skip it
                 if (row.cells.length === 1 && row.cells[0].getAttribute('colspan')) return;
+                totalCount++;
 
                 const titleText = row.cells[1] ? row.cells[1].textContent.toLowerCase() : '';
                 const typeText = row.cells[2] ? row.cells[2].textContent.toLowerCase() : '';
@@ -155,10 +163,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (titleText.includes(query) || typeText.includes(query) || locationText.includes(query)) {
                     row.style.display = '';
+                    visibleCount++;
                 } else {
                     row.style.display = 'none';
                 }
             });
+
+            const countInfo = document.getElementById('properti-count-info');
+            if (query !== '') {
+                countInfo.textContent = `Menampilkan ${visibleCount} dari ${totalCount} properti (hasil pencarian)`;
+            } else {
+                countInfo.innerHTML = `Menampilkan {{ $properties->firstItem() ?: 0 }} - {{ $properties->lastItem() ?: 0 }} dari {{ $properties->total() }} properti`;
+            }
         });
     }
 });

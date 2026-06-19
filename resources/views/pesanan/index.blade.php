@@ -402,6 +402,9 @@
                 <a href="/properti" class="btn-find-properti">Cari Properti</a>
             </div>
         @else
+            <div style="font-size: 0.95rem; color: var(--text-slate); margin-bottom: 1.25rem; font-weight: 500;">
+                Menampilkan {{ count($bookings) }} dari {{ count($bookings) }} pemesanan
+            </div>
             <div class="booking-list">
                 @foreach($bookings as $booking)
                     <div class="booking-card">
