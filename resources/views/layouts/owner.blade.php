@@ -238,8 +238,41 @@
         // Observe dynamic additions
         const observer = new MutationObserver(applyToPage);
         observer.observe(document.body, { childList: true, subtree: true });
+
+        // Tampilkan/sembunyikan tombol back-to-top & update progress ring berdasarkan scroll
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (backToTopBtn) {
+                const circleBar = document.querySelector('.progress-ring__circle-bar');
+                const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+                
+                // Keliling lingkaran r=24 adalah 2 * Math.PI * 24 = 150.8
+                const circumference = 2 * Math.PI * 24; 
+                if (circleBar) {
+                    const offset = circumference - (scrollPercent * circumference);
+                    circleBar.style.strokeDashoffset = Math.max(0, Math.min(circumference, offset));
+                }
+
+                if (window.scrollY > 300) {
+                    backToTopBtn.style.display = 'flex';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            }
+        });
     });
     </script>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="display: none; position: fixed; bottom: 30px; right: 30px; z-index: 9999;">
+        <svg class="progress-ring" width="56" height="56">
+            <circle class="progress-ring__circle-track" stroke="rgba(202, 138, 4, 0.15)" stroke-width="3.5" fill="transparent" r="24" cx="28" cy="28"/>
+            <circle class="progress-ring__circle-bar" stroke="var(--secondary)" stroke-width="3.5" fill="transparent" r="24" cx="28" cy="28" stroke-dasharray="150.8" stroke-dashoffset="150.8"/>
+        </svg>
+        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
 </body>
 </html>
