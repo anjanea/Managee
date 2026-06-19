@@ -1127,13 +1127,41 @@
                         $defaultIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>';
                     @endphp
 
+                    @php
+                        $facilityTranslations = [
+                            'Wifi' => 'Wi-Fi',
+                            'Wi-Fi' => 'Wi-Fi',
+                            'AC' => 'AC',
+                            'TV Kabel' => 'TV Kabel',
+                            'Lift' => 'Lift',
+                            'Security 24 Jam' => 'Keamanan 24 Jam',
+                            'Balkon' => 'Balkon',
+                            'Kolam Renang' => 'Kolam Renang',
+                            'Dapur' => 'Dapur',
+                            'Taman' => 'Taman',
+                            'Furniture' => 'Furnitur',
+                            'Pemandangan Sawah' => 'Pemandangan Sawah',
+                            'Ruang kerja' => 'Ruang Kerja',
+                            'HDTV 45 inci dengan Netflix' => 'HDTV 45 inci dengan Netflix',
+                            'Laundry' => 'Layanan Binatu',
+                            'CCTV' => 'CCTV',
+                            'Parkir Motor' => 'Parkir Motor',
+                            'Playground' => 'Area Bermain Anak',
+                            'Gym' => 'Pusat Kebugaran (Gym)',
+                            'Garasi' => 'Garasi',
+                        ];
+                    @endphp
+
                     <div class="facilities-grid" style="margin-top: 1.5rem;">
                         @foreach($facilityList as $facilityName)
+                            @php
+                                $displayLabel = isset($facilityTranslations[$facilityName]) ? $facilityTranslations[$facilityName] : $facilityName;
+                            @endphp
                             <div class="facility-item">
                                 <div class="facility-icon">
                                     {!! isset($facilityIcons[$facilityName]) ? $facilityIcons[$facilityName] : $defaultIcon !!}
                                 </div>
-                                <span>{{ $facilityName }}</span>
+                                <span>{{ $displayLabel }}</span>
                             </div>
                         @endforeach
                     </div>
