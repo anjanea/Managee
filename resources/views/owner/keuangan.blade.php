@@ -143,19 +143,19 @@
             <table class="owner-table" style="width: 100%; border-collapse: collapse; text-align: left;">
                 <thead>
                     <tr style="border-bottom: 2px solid var(--border); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted);">
-                        <th style="padding: 0.75rem 0;">Bulan</th>
-                        <th>Pendapatan Kotor (IDR)</th>
-                        <th>Kuantitas Pemesanan</th>
-                        <th>Tingkat Hunian (Okupansi)</th>
+                        <th style="padding: 0.75rem 0.5rem; text-align: left;">Bulan</th>
+                        <th style="padding: 0.75rem 0.5rem; text-align: left;">Pendapatan Kotor (IDR)</th>
+                        <th style="padding: 0.75rem 0.5rem; text-align: left;">Kuantitas Pemesanan</th>
+                        <th style="padding: 0.75rem 0.5rem; text-align: left;">Tingkat Hunian (Okupansi)</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($reports as $report)
                         <tr style="border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0;">{{ $report['month'] }}</td>
-                            <td style="font-weight: 600; color: var(--primary);">Rp {{ number_format($report['revenue'], 0, ',', '.') }}</td>
-                            <td style="color: var(--text-main);">{{ $report['bookings'] }} Pemesanan</td>
-                            <td>
+                            <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0.5rem;">{{ $report['month'] }}</td>
+                            <td style="font-weight: 600; color: var(--primary); padding: 1rem 0.5rem;">Rp {{ number_format($report['revenue'], 0, ',', '.') }}</td>
+                            <td style="color: var(--text-main); padding: 1rem 0.5rem;">{{ $report['bookings'] }} Pemesanan</td>
+                            <td style="padding: 1rem 0.5rem;">
                                 <div style="display: flex; align-items: center; gap: 0.75rem;">
                                     <div style="flex: 1; background: #e2e8f0; height: 8px; border-radius: 4px; max-width: 120px; overflow: hidden;">
                                         <div style="background: var(--secondary); width: {{ $report['occupancy'] }}%; height: 100%;"></div>
