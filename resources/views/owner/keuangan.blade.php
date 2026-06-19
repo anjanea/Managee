@@ -68,9 +68,9 @@
                     <tbody id="transaction-tbody">
                         @foreach($keuangan['riwayat_transaksi'] as $tx)
                         <tr class="tx-row" data-type="{{ strpos($tx['tipe'], 'Penarikan') !== false ? 'penarikan' : 'pemasukan' }}" style="border-bottom: 1px solid var(--border); font-size: 0.95rem; transition: var(--transition);">
-                            <td style="padding: 1rem 0.5rem; color: var(--text-muted);">{{ $tx['tanggal'] }}</td>
-                            <td style="padding: 1rem 0.5rem;">
-                                <span style="font-weight: 600; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; 
+                            <td style="padding: 1rem 0.5rem; color: var(--text-muted); white-space: nowrap;">{{ $tx['tanggal'] }}</td>
+                            <td style="padding: 1rem 0.5rem; white-space: nowrap;">
+                                <span style="font-weight: 600; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; display: inline-block; white-space: nowrap;
                                     background: {{ $tx['tipe'] == 'Pemasukan' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(59, 130, 246, 0.1)' }}; 
                                     color: {{ $tx['tipe'] == 'Pemasukan' ? '#22c55e' : '#3b82f6' }};">
                                     {{ $tx['tipe'] }}
