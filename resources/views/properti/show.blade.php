@@ -1399,6 +1399,7 @@
         const checkinInput = document.getElementById('checkin').value;
         const checkoutInput = document.getElementById('checkout').value;
         const errorDiv = document.getElementById('booking-error-msg');
+        const submitBtn = document.querySelector('.btn-submit-booking');
 
         if (!checkinInput || !checkoutInput) return;
 
@@ -1415,9 +1416,23 @@
             document.getElementById('price-service').textContent = `Rp 0`;
             document.getElementById('price-tax').textContent = `Rp 0`;
             document.getElementById('price-total').textContent = `Rp 0`;
+
+            // Disable and style button
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.55';
+            submitBtn.style.cursor = 'not-allowed';
+            submitBtn.style.backgroundColor = '#94a3b8';
+            submitBtn.style.boxShadow = 'none';
+            submitBtn.textContent = 'Pesan Sekarang (Tanggal Tidak Valid)';
             return;
         } else {
             errorDiv.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.style.backgroundColor = 'var(--secondary-gold)';
+            submitBtn.style.boxShadow = '';
+            submitBtn.textContent = 'Pesan Sekarang';
         }
 
         // Calculate nights
