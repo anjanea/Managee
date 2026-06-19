@@ -1,6 +1,6 @@
 @extends('layouts.owner')
 
-@section('title', 'Managee Owner - Edit Properti: ' . $property->title)
+@section('title', 'Managee Owner - Ubah Properti: ' . $property->title)
 @section('page_title', 'Ubah Properti')
 
 @section('content')
@@ -10,8 +10,7 @@
         <a href="{{ route('owner.properties.index') }}" style="position: absolute; right: 0; top: 0; color: var(--text-muted); transition: var(--transition);">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </a>
-        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0 0 0.25rem 0; line-height: 1.2;">Ubah Rincian Unit Properti</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">Ubah rincian akomodasi properti Anda</p>
+        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0; line-height: 1.2;">Ubah Rincian Unit Properti</h3>
     </div>
 
     <!-- Wizard Steps Indicator -->
