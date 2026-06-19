@@ -62,11 +62,7 @@
                         </div>
                         <div style="display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0;">
                             <button onclick="toggleEditForm({{ $rev->id }}, true)" style="background: none; border: 1px solid var(--border); color: var(--primary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: var(--transition);">Ubah</button>
-                            <form action="{{ route('owner.ulasan.delete_reply', $rev->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus balasan ini?');" style="margin:0;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background: none; border: 1px solid #fee2e2; color: #ef4444; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: var(--transition);" onmouseover="this.style.backgroundColor='#fee2e2'" onmouseout="this.style.backgroundColor='transparent'">Hapus</button>
-                            </form>
+                            <button type="button" onclick="confirmDeleteReply('{{ $rev->id }}')" style="background: none; border: 1px solid #fee2e2; color: #ef4444; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: var(--transition);" onmouseover="this.style.backgroundColor='#fee2e2'" onmouseout="this.style.backgroundColor='transparent'">Hapus</button>
                         </div>
                     </div>
 
@@ -114,12 +110,50 @@
             editDiv.style.display = 'none';
         }
     }
+    function confirmDeleteReply(id) {
+        const form = document.getElementById('delete-reply-form');
+        form.action = `/owner/ulasan/${id}/reply`;
+        document.getElementById('delete-reply-modal').style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('delete-reply-modal').style.display = 'none';
+    }
 </script>
+
+<div id="delete-reply-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: #FFFFFF; border-radius: 16px; padding: 2rem; max-width: 450px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); text-align: center; border: 1px solid var(--border); animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <!-- Warning Icon -->
+        <div style="background: #FEE2E2; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto; color: #EF4444;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+        </div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Konfirmasi Hapus Balasan</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;">
+            Apakah Anda yakin ingin menghapus balasan ulasan ini? Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div style="display: flex; gap: 0.75rem; justify-content: center;">
+            <button type="button" onclick="closeDeleteModal()" style="background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border); padding: 0.6rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; font-size: 0.9rem; font-family: inherit;">Batal</button>
+            <form id="delete-reply-form" action="" method="POST" style="margin: 0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" style="background: #ef4444; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; font-size: 0.9rem; font-family: inherit;">Ya, Hapus</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <style>
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(5px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
     }
 </style>
 
