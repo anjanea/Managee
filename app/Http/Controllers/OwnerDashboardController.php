@@ -26,6 +26,7 @@ class OwnerDashboardController extends Controller
         // Fetch bookings to build the agenda dynamically
         $agendaBookings = \App\Models\Booking::with(['user', 'property'])
             ->whereIn('status', ['Dikonfirmasi', 'Selesai', 'Menunggu'])
+            ->where('checkout_date', '>=', now()->toDateString())
             ->orderBy('checkin_date', 'asc')
             ->take(5)
             ->get();
