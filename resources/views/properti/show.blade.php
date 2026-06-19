@@ -1257,11 +1257,11 @@
                     <!-- Date & Guests Form -->
                     <div class="booking-form-group">
                         <div class="booking-field">
-                            <label for="checkin">Tanggal Check-In</label>
+                            <label for="checkin">Tanggal Masuk</label>
                             <input type="date" id="checkin" class="booking-input" onchange="calculateTotal()">
                         </div>
                         <div class="booking-field">
-                            <label for="checkout">Tanggal Check-Out</label>
+                            <label for="checkout">Tanggal Keluar</label>
                             <input type="date" id="checkout" class="booking-input" onchange="calculateTotal()">
                         </div>
                         <div class="booking-field">
@@ -1276,6 +1276,9 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- Error Message Block -->
+                    <div id="booking-error-msg" style="display: none; color: #ef4444; background: #fee2e2; border: 1px solid #fca5a5; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; line-height: 1.4;"></div>
 
                     <!-- Calculations Summary -->
                     <div class="pricing-summary">
@@ -1367,6 +1370,7 @@
     function calculateTotal() {
         const checkinInput = document.getElementById('checkin').value;
         const checkoutInput = document.getElementById('checkout').value;
+        const errorDiv = document.getElementById('booking-error-msg');
 
         if (!checkinInput || !checkoutInput) return;
 
@@ -1375,13 +1379,17 @@
 
         // Check if dates are valid
         if (checkoutDate <= checkinDate) {
-            alert("Tanggal check-out harus setelah tanggal check-in!");
+            errorDiv.textContent = "Tanggal keluar harus setelah tanggal masuk!";
+            errorDiv.style.display = 'block';
+            
             // Reset checkout to next day
             const nextDay = new Date(checkinDate);
             nextDay.setDate(nextDay.getDate() + 1);
             document.getElementById('checkout').value = formatDate(nextDay);
             calculateTotal();
             return;
+        } else {
+            errorDiv.style.display = 'none';
         }
 
         // Calculate nights
@@ -1410,10 +1418,14 @@
         const checkin = document.getElementById('checkin').value;
         const checkout = document.getElementById('checkout').value;
         const guests = document.getElementById('guests').value;
+        const errorDiv = document.getElementById('booking-error-msg');
 
         if (!checkin || !checkout) {
-            alert("Harap tentukan tanggal check-in dan check-out!");
+            errorDiv.textContent = "Harap tentukan tanggal masuk dan keluar!";
+            errorDiv.style.display = 'block';
             return;
+        } else {
+            errorDiv.style.display = 'none';
         }
 
         window.location = `/properti/{{ $property->id }}/checkout?checkin=${checkin}&checkout=${checkout}&guests=${guests}`;

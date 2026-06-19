@@ -61,7 +61,7 @@
                             <th style="padding: 0.75rem 0.5rem; text-align: left;">Tanggal</th>
                             <th style="padding: 0.75rem 0.5rem; text-align: left;">Tipe</th>
                             <th style="padding: 0.75rem 0.5rem; text-align: left;">Deskripsi</th>
-                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Jumlah (IDR)</th>
+                            <th style="padding: 0.75rem 0.5rem; text-align: left;">Jumlah (Rupiah)</th>
                             <th style="padding: 0.75rem 0.5rem; text-align: right;">Status</th>
                         </tr>
                     </thead>
@@ -144,7 +144,7 @@
                 <thead>
                     <tr style="border-bottom: 2px solid var(--border); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted);">
                         <th style="padding: 0.75rem 0.5rem; text-align: left;">Bulan</th>
-                        <th style="padding: 0.75rem 0.5rem; text-align: left;">Pendapatan Kotor (IDR)</th>
+                        <th style="padding: 0.75rem 0.5rem; text-align: left;">Pendapatan Kotor (Rupiah)</th>
                         <th style="padding: 0.75rem 0.5rem; text-align: left;">Kuantitas Pemesanan</th>
                         <th style="padding: 0.75rem 0.5rem; text-align: left;">Tingkat Hunian (Okupansi)</th>
                     </tr>

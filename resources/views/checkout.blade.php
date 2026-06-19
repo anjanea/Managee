@@ -516,14 +516,17 @@
                     <h2 class="checkout-title">Detail Pesanan</h2>
                     <p class="checkout-subtitle">Lengkapi detailnya dengan datamu untuk keperluan pemesanan</p>
                     
+                    <!-- Error Message Block for Checkout -->
+                    <div id="checkout-error-msg" style="display: none; color: #ef4444; background: #fee2e2; border: 1px solid #fca5a5; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; line-height: 1.4;"></div>
+                    
                     <div class="form-group">
                         <label for="full-name">Nama Lengkap <span style="color: #E53E3E;">*</span></label>
                         <input type="text" id="full-name" class="form-input" placeholder="Masukkan nama lengkap" oninput="this.value = this.value.replace(/[^a-zA-Z\s']/g, '')">
                     </div>
                     <div class="form-group">
-                        <label for="email-addr">Alamat Email <span style="color: #E53E3E;">*</span></label>
-                        <input type="email" id="email-addr" class="form-input" placeholder="email@contoh.com">
-                        <span style="font-size: 0.75rem; color: var(--text-light-slate); margin-top: 0.15rem; margin-left: 1rem;">Email konfirmasi akan dikirim ke alamat ini</span>
+                        <label for="email-addr">Alamat Surel <span style="color: #E53E3E;">*</span></label>
+                        <input type="email" id="email-addr" class="form-input" placeholder="surel@contoh.com">
+                        <span style="font-size: 0.75rem; color: var(--text-light-slate); margin-top: 0.15rem; margin-left: 1rem;">Surel konfirmasi akan dikirim ke alamat ini</span>
                     </div>
                     <div class="form-group">
                         <label for="phone-num">Nomor Telepon <span style="color: #E53E3E;">*</span></label>
@@ -578,6 +581,9 @@
                 <div id="step-form-3" class="checkout-card" style="display: none;">
                     <h2 class="checkout-title">Pilih Metode Pembayaran</h2>
                     <p class="checkout-subtitle">Pilih metode transaksi pembayaran yang aman dan nyaman bagi Anda</p>
+                    
+                    <!-- Payment Error Message Block -->
+                    <div id="payment-error-msg" style="display: none; color: #ef4444; background: #fee2e2; border: 1px solid #fca5a5; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; line-height: 1.4;"></div>
                     
                     <div class="payment-options-grid">
                         <div class="payment-card selected" onclick="selectPaymentMethod('bank', this)">
@@ -681,11 +687,11 @@
                     <!-- Stay detail data items -->
                     <div class="summary-details-list">
                         <div class="summary-details-item">
-                            <span>Check-in:</span>
+                            <span>Tanggal Masuk:</span>
                             <span class="val" id="summary-checkin-val">Sab, 23 Mei 2026</span>
                         </div>
                         <div class="summary-details-item">
-                            <span>Check-out:</span>
+                            <span>Tanggal Keluar:</span>
                             <span class="val" id="summary-checkout-val">Sel, 26 Mei 2026</span>
                         </div>
                         <div class="summary-details-item">
@@ -785,7 +791,7 @@
             <div class="success-icon">✓</div>
             <h2 style="font-size: 1.75rem; color: var(--emerald-primary); font-weight: 700; margin-bottom: 0.5rem;">Pembayaran Sukses!</h2>
             <p style="color: var(--text-slate); font-size: 0.95rem; line-height: 1.5; margin-bottom: 2rem;">
-                Pemesanan properti Anda berhasil diverifikasi. Bukti bayar dan voucher inap telah dikirimkan ke alamat email Anda.
+                Pemesanan properti Anda berhasil diverifikasi. Bukti bayar dan voucher inap telah dikirimkan ke alamat surel Anda.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <button class="btn-checkout-next" onclick="window.location='/'" style="background-color: var(--emerald-primary); padding: 0.85rem 1.5rem; font-size: 0.95rem; width: auto;">
@@ -996,6 +1002,7 @@
 
     // Wizard Navigation Controller
     function advanceStep() {
+        const errorDiv = document.getElementById('checkout-error-msg');
         if (activeStep === 1) {
             const nameInput = document.getElementById('full-name');
             const emailInput = document.getElementById('email-addr');
@@ -1006,29 +1013,35 @@
             const phone = phoneInput.value.trim();
 
             if (!name || !email || !phone) {
-                alert("Harap lengkapi semua kolom bertanda bintang (*) untuk melanjutkan!");
+                errorDiv.textContent = "Harap lengkapi semua kolom bertanda bintang (*) untuk melanjutkan!";
+                errorDiv.style.display = 'block';
                 return;
             }
 
             if (name.length < 2) {
-                alert("Nama Lengkap harus berisi minimal 2 karakter!");
+                errorDiv.textContent = "Nama Lengkap harus berisi minimal 2 karakter!";
+                errorDiv.style.display = 'block';
                 nameInput.focus();
                 return;
             }
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                alert("Format alamat email tidak valid (contoh: nama@email.com)!");
+                errorDiv.textContent = "Format alamat surel tidak valid (contoh: nama@surel.com)!";
+                errorDiv.style.display = 'block';
                 emailInput.focus();
                 return;
             }
 
             const cleanPhone = phone.replace(/[^0-9]/g, '');
             if (cleanPhone.length < 9 || cleanPhone.length > 15) {
-                alert("Nomor telepon harus berisi antara 9 sampai 15 digit angka!");
+                errorDiv.textContent = "Nomor telepon harus berisi antara 9 sampai 15 digit angka!";
+                errorDiv.style.display = 'block';
                 phoneInput.focus();
                 return;
             }
+
+            errorDiv.style.display = 'none';
 
             // Move to Step 2
             document.getElementById('step-form-1').style.display = 'none';
@@ -1107,7 +1120,10 @@
                 })
                 .catch(error => {
                     // Simulate Payment Failure
-                    alert("Pembayaran Gagal: Saldo kartu Anda tidak mencukupi atau koneksi pembayaran ke Virtual Account/QRIS terputus. Silakan ganti kartu atau coba metode pembayaran lain.");
+                    const payErrorDiv = document.getElementById('payment-error-msg');
+                    payErrorDiv.textContent = "Pembayaran Gagal: Saldo kartu Anda tidak mencukupi atau koneksi pembayaran ke Virtual Account/QRIS terputus. Silakan ganti kartu atau coba metode pembayaran lain.";
+                    payErrorDiv.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                     btn.disabled = false;
                     btn.textContent = 'Bayar Sekarang';
                 });
