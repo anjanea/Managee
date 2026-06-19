@@ -51,7 +51,7 @@ class PropertyController extends Controller
         // Filter by minimum rating stars (dynamic reviews average - using round to match the rounded UI presentation)
         if ($request->filled('rating') && $request->input('rating') !== 'all') {
             $rating = (int)$request->input('rating');
-            $query->whereRaw('(select coalesce(round(avg(stars)), 0) from reviews where reviews.property_id = properties.id) >= ?', [$rating]);
+            $query->whereRaw('(select coalesce(round(avg(stars)), 0) from reviews where reviews.property_id = properties.id) = ?', [$rating]);
         }
 
         // Filter by Min Price
