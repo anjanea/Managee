@@ -347,19 +347,35 @@ class OwnerDashboardController extends Controller
     {
         $properties = Property::orderBy('title', 'asc')->get();
 
-        // Mock dynamic details for reports
-        $reports = [
-            ['month' => 'Januari', 'revenue' => 45000000, 'bookings' => 3, 'occupancy' => 80],
-            ['month' => 'Februari', 'revenue' => 50000000, 'bookings' => 4, 'occupancy' => 85],
-            ['month' => 'Maret', 'revenue' => 38000000, 'bookings' => 3, 'occupancy' => 75],
-            ['month' => 'April', 'revenue' => 62000000, 'bookings' => 5, 'occupancy' => 90],
-            ['month' => 'Mei', 'revenue' => 75000000, 'bookings' => 6, 'occupancy' => 95],
-        ];
+        // Dynamic 6 months report
+        $reports = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $monthDate = now()->subMonths($i);
+            $monthName = $monthDate->translatedFormat('F');
+            $monthNum = $monthDate->month;
+            $year = $monthDate->year;
+
+            $monthBookings = \App\Models\Booking::whereIn('status', ['Selesai', 'Dikonfirmasi'])
+                ->whereMonth('checkin_date', $monthNum)
+                ->whereYear('checkin_date', $year)
+                ->get();
+
+            $revenue = $monthBookings->sum('total_price');
+            $bookingsCount = $monthBookings->count();
+            $occupancy = $bookingsCount > 0 ? min(100, 30 + ($bookingsCount * 15)) : 0;
+
+            $reports[] = [
+                'month' => $monthName,
+                'revenue' => $revenue,
+                'bookings' => $bookingsCount,
+                'occupancy' => $occupancy
+            ];
+        }
 
         $totals = [
             'revenue' => array_sum(array_column($reports, 'revenue')),
             'bookings' => array_sum(array_column($reports, 'bookings')),
-            'avg_occupancy' => round(array_sum(array_column($reports, 'occupancy')) / count($reports)),
+            'avg_occupancy' => count($reports) > 0 ? round(array_sum(array_column($reports, 'occupancy')) / count($reports)) : 0,
         ];
 
         return view('owner.laporan', compact('reports', 'totals', 'properties'));
@@ -375,13 +391,30 @@ class OwnerDashboardController extends Controller
             "Expires" => "0"
         ];
 
-        $reports = [
-            ['month' => 'Januari', 'revenue' => 45000000, 'bookings' => 3, 'occupancy' => 80],
-            ['month' => 'Februari', 'revenue' => 50000000, 'bookings' => 4, 'occupancy' => 85],
-            ['month' => 'Maret', 'revenue' => 38000000, 'bookings' => 3, 'occupancy' => 75],
-            ['month' => 'April', 'revenue' => 62000000, 'bookings' => 5, 'occupancy' => 90],
-            ['month' => 'Mei', 'revenue' => 75000000, 'bookings' => 6, 'occupancy' => 95],
-        ];
+        // Dynamic 6 months report for export
+        $reports = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $monthDate = now()->subMonths($i);
+            $monthName = $monthDate->translatedFormat('F');
+            $monthNum = $monthDate->month;
+            $year = $monthDate->year;
+
+            $monthBookings = \App\Models\Booking::whereIn('status', ['Selesai', 'Dikonfirmasi'])
+                ->whereMonth('checkin_date', $monthNum)
+                ->whereYear('checkin_date', $year)
+                ->get();
+
+            $revenue = $monthBookings->sum('total_price');
+            $bookingsCount = $monthBookings->count();
+            $occupancy = $bookingsCount > 0 ? min(100, 30 + ($bookingsCount * 15)) : 0;
+
+            $reports[] = [
+                'month' => $monthName,
+                'revenue' => $revenue,
+                'bookings' => $bookingsCount,
+                'occupancy' => $occupancy
+            ];
+        }
 
         $callback = function() use ($reports) {
             $file = fopen('php://output', 'w');
