@@ -62,7 +62,7 @@
                     </div>
                     
                     <div class="form-group" style="flex: 1;">
-                        <label for="price" style="font-weight: 600; font-size: 0.9rem;">Harga Sewa Per Bulan (Rp) *</label>
+                        <label for="price" style="font-weight: 600; font-size: 0.9rem;">Harga Sewa Per Malam (Rp) *</label>
                         <input type="number" id="price" name="price" value="{{ old('price') }}" placeholder="Contoh: 12500000" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; margin-top: 0.25rem;" required>
                         @error('price')
                             <span style="color: #ef4444; font-size: 0.85rem; margin-top: 0.25rem; display: block;">{{ $message }}</span>

@@ -76,7 +76,7 @@
                         <th>Foto</th>
                         <th>Judul Unit</th>
                         <th>Tipe</th>
-                        <th>Harga / Bulan</th>
+                        <th>Harga / Malam</th>
                         <th>Lokasi</th>
                         <th>Bintang</th>
                         <th>Aksi</th>

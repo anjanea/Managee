@@ -1354,7 +1354,7 @@
                             <span>{{ $rel->reviews->count() > 0 ? number_format($rel->reviews->avg('stars'), 1) : '5.0' }}</span>
                         </div>
                         <p class="related-card-address">{{ $rel->address }}</p>
-                        <p class="related-card-price">Rp {{ number_format($rel->price, 0, ',', '.') }} <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-light-slate);">/ bulan</span></p>
+                        <p class="related-card-price">Rp {{ number_format($rel->price, 0, ',', '.') }} <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-light-slate);">/ malam</span></p>
                     </div>
                 </a>
                 @endforeach
