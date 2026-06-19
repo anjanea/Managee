@@ -97,7 +97,7 @@
                 </div>
 
                 <div style="border-top: 1px solid var(--border); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Harga Sewa Bulanan:</span>
+                    <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 500;">Harga Sewa Per Malam:</span>
                     <span style="font-size: 1.4rem; font-weight: 700; color: var(--primary);">Rp {{ number_format($property->price, 0, ',', '.') }}</span>
                 </div>
             </div>
