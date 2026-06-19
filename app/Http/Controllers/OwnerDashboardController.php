@@ -421,61 +421,90 @@ class OwnerDashboardController extends Controller
     {
         $properties = Property::orderBy('title', 'asc')->get();
 
+        // Fetch all bookings from database
+        $dbBookings = \App\Models\Booking::with(['user', 'property'])->get();
+
+        // Calculate dynamic finance statistics
+        // Total Pendapatan = sum of total_price of completed (Selesai) and confirmed (Dikonfirmasi) bookings
+        $total_pendapatan = \App\Models\Booking::whereIn('status', ['Selesai', 'Dikonfirmasi'])->sum('total_price');
+
+        // Saldo Tertahan = sum of total_price of pending (Menunggu) bookings
+        $saldo_tertahan = \App\Models\Booking::whereIn('status', ['Menunggu'])->sum('total_price');
+
+        // Total Penarikan (mock withdrawals)
+        $total_penarikan = 35000000;
+
+        // Saldo Aktif = Total Pendapatan - Total Penarikan
+        $saldo_aktif = max(0, $total_pendapatan - $total_penarikan);
+
+        $withdrawals = [
+            [
+                'id' => 'WD003',
+                'tanggal' => '02 Jun 2026',
+                'jumlah' => 15000000,
+                'status' => 'Sukses',
+                'bank' => 'BCA - 8012****11',
+                'raw_date' => \Carbon\Carbon::parse('2026-06-02')
+            ],
+            [
+                'id' => 'WD002',
+                'tanggal' => '15 Mei 2026',
+                'jumlah' => 20000000,
+                'status' => 'Sukses',
+                'bank' => 'BCA - 8012****11',
+                'raw_date' => \Carbon\Carbon::parse('2026-05-15')
+            ]
+        ];
+
+        // Build transaction history dynamically
+        $riwayat_transaksi = [];
+
+        // Add bookings to transaction history
+        foreach ($dbBookings as $booking) {
+            if ($booking->status === 'Ditolak') continue;
+
+            $riwayat_transaksi[] = [
+                'tanggal' => $booking->checkin_date ? $booking->checkin_date->translatedFormat('d M Y') : 'N/A',
+                'raw_date' => $booking->checkin_date ?: now(),
+                'tipe' => 'Pemasukan',
+                'deskripsi' => "Pemesanan #b{$booking->id} - " . ($booking->user ? $booking->user->name : 'Penyewa') . " (" . ($booking->property ? $booking->property->title : 'Properti') . ")",
+                'jumlah' => $booking->total_price,
+                'status' => $booking->status === 'Selesai' ? 'Selesai' : ($booking->status === 'Dikonfirmasi' ? 'Sukses' : 'Menunggu')
+            ];
+        }
+
+        // Add withdrawals to transaction history
+        foreach ($withdrawals as $wd) {
+            $riwayat_transaksi[] = [
+                'tanggal' => $wd['tanggal'],
+                'raw_date' => $wd['raw_date'],
+                'tipe' => 'Penarikan Dana',
+                'deskripsi' => "Penarikan Dana ke BCA (" . auth()->user()->name . ")",
+                'jumlah' => -$wd['jumlah'],
+                'status' => $wd['status']
+            ];
+        }
+
+        // Sort transaction history by date descending
+        usort($riwayat_transaksi, function($a, $b) {
+            return $b['raw_date']->timestamp <=> $a['raw_date']->timestamp;
+        });
+
         $keuangan = [
-            'saldo_aktif' => 42500000,
-            'saldo_tertahan' => 12000000,
-            'total_pendapatan' => 74500000,
+            'saldo_aktif' => $saldo_aktif,
+            'saldo_tertahan' => $saldo_tertahan,
+            'total_pendapatan' => $total_pendapatan,
             'bank_info' => [
                 'nama_bank' => 'Bank Central Asia (BCA)',
                 'nomor_rekening' => '8012998811',
                 'nama_pemilik' => auth()->user()->name
             ],
-            'riwayat_penarikan' => [
-                [
-                    'id' => 'WD003',
-                    'tanggal' => '02 Jun 2026',
-                    'jumlah' => 15000000,
-                    'status' => 'Sukses',
-                    'bank' => 'BCA - 8012****11'
-                ],
-                [
-                    'id' => 'WD002',
-                    'tanggal' => '15 Mei 2026',
-                    'jumlah' => 20000000,
-                    'status' => 'Sukses',
-                    'bank' => 'BCA - 8012****11'
-                ]
-            ],
-            'riwayat_transaksi' => [
-                [
-                    'tanggal' => '08 Jun 2026',
-                    'tipe' => 'Pemasukan',
-                    'deskripsi' => 'Pemesanan #b1 - Rudi Hermawan (Apartemen Chilitown)',
-                    'jumlah' => 12500000,
-                    'status' => 'Selesai'
-                ],
-                [
-                    'tanggal' => '02 Jun 2026',
-                    'tipe' => 'Penarikan Dana',
-                    'deskripsi' => 'Penarikan Dana ke BCA (' . auth()->user()->name . ')',
-                    'jumlah' => -15000000,
-                    'status' => 'Sukses'
-                ],
-                [
-                    'tanggal' => '25 Mei 2026',
-                    'tipe' => 'Pemasukan',
-                    'deskripsi' => 'Pemesanan #b4 - Andi Wijaya (Villa Canggu)',
-                    'jumlah' => 12000000,
-                    'status' => 'Selesai'
-                ],
-                [
-                    'tanggal' => '15 Mei 2026',
-                    'tipe' => 'Penarikan Dana',
-                    'deskripsi' => 'Penarikan Dana ke BCA (' . auth()->user()->name . ')',
-                    'jumlah' => -20000000,
-                    'status' => 'Sukses'
-                ]
-            ]
+            'riwayat_penarikan' => array_map(function($wd) {
+                // Remove raw_date key to keep clean structure
+                unset($wd['raw_date']);
+                return $wd;
+            }, $withdrawals),
+            'riwayat_transaksi' => $riwayat_transaksi
         ];
 
         // Consolidated Reports Data
