@@ -63,7 +63,7 @@
                                     ✍️ Kelola Artikel
                                 </a>
                                 <a href="{{ route('owner.bantuan.index') }}" class="profile-dropdown-item">
-                                    ❓ Pusat Bantuan (FAQ)
+                                    ❓ Pusat Bantuan
                                 </a>
                             @else
                                 <a href="{{ route('user.profile.show') }}" class="profile-dropdown-item">

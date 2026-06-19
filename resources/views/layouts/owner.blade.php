@@ -122,7 +122,7 @@
                         </a>
                         <a href="{{ route('owner.bantuan.index') }}" class="dropdown-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--text-main); text-decoration: none; transition: var(--transition);">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                            <span>Pusat Bantuan (FAQ)</span>
+                            <span>Pusat Bantuan</span>
                         </a>
                         <div style="height: 1px; background: var(--border); margin: 0.4rem 0;"></div>
                         <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
