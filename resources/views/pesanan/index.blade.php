@@ -426,11 +426,11 @@
                                 <div class="booking-info-grid">
                                     <div class="info-item">
                                         <span class="info-label">Tanggal Check-In</span>
-                                        <span class="info-value">{{ $booking->checkin_date->format('d M Y') }}</span>
+                                        <span class="info-value">{{ $booking->checkin_date->translatedFormat('d M Y') }}</span>
                                     </div>
                                     <div class="info-item">
                                         <span class="info-label">Tanggal Check-Out</span>
-                                        <span class="info-value">{{ $booking->checkout_date->format('d M Y') }}</span>
+                                        <span class="info-value">{{ $booking->checkout_date->translatedFormat('d M Y') }}</span>
                                     </div>
                                     <div class="info-item">
                                         <span class="info-label">Jumlah Tamu</span>

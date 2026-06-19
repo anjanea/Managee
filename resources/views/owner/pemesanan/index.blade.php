@@ -80,7 +80,7 @@
                                 </div>
                             </td>
                             <td>{{ $booking->property->title }}</td>
-                            <td>{{ $booking->checkin_date->format('d M') }} - {{ $booking->checkout_date->format('d M Y') }}</td>
+                            <td>{{ $booking->checkin_date->translatedFormat('d M') }} - {{ $booking->checkout_date->translatedFormat('d M Y') }}</td>
                             <td style="font-weight: 600; color: var(--primary);">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
                             <td>
                                 @if($booking->status == 'Selesai')

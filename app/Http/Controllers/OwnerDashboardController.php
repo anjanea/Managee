@@ -41,7 +41,7 @@ class OwnerDashboardController extends Controller
                     'user' => $booking->user->name,
                     'property' => $booking->property->title,
                     'color' => '#22c55e',
-                    'formatted_dates' => \Carbon\Carbon::parse($booking->checkin_date)->format('d M') . ' - ' . \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y')
+                    'formatted_dates' => \Carbon\Carbon::parse($booking->checkin_date)->translatedFormat('d M') . ' - ' . \Carbon\Carbon::parse($booking->checkout_date)->translatedFormat('d M Y')
                 ];
                 // Checkout event
                 $agendaEvents[] = [
@@ -50,7 +50,7 @@ class OwnerDashboardController extends Controller
                     'user' => $booking->user->name,
                     'property' => $booking->property->title,
                     'color' => '#ef4444',
-                    'formatted_dates' => \Carbon\Carbon::parse($booking->checkin_date)->format('d M') . ' - ' . \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y')
+                    'formatted_dates' => \Carbon\Carbon::parse($booking->checkin_date)->translatedFormat('d M') . ' - ' . \Carbon\Carbon::parse($booking->checkout_date)->translatedFormat('d M Y')
                 ];
             }
         }

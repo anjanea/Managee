@@ -126,7 +126,7 @@
                             <td style="font-weight: 600; color: var(--text-main); padding: 1rem 0.5rem; text-align: left; vertical-align: middle;">{{ $booking->user->name }}</td>
                             <td style="padding: 1rem 0.5rem; text-align: left; vertical-align: middle;">{{ $booking->property->title }}</td>
                             <td style="font-size: 0.9rem; color: var(--text-muted); padding: 1rem 0.5rem; text-align: left; vertical-align: middle; white-space: nowrap;">
-                                {{ \Carbon\Carbon::parse($booking->checkin_date)->format('d M') }} - {{ \Carbon\Carbon::parse($booking->checkout_date)->format('d M Y') }}
+                                {{ \Carbon\Carbon::parse($booking->checkin_date)->translatedFormat('d M') }} - {{ \Carbon\Carbon::parse($booking->checkout_date)->translatedFormat('d M Y') }}
                             </td>
                             <td style="font-weight: 600; color: var(--primary); padding: 1rem 0.5rem; text-align: left; vertical-align: middle; white-space: nowrap;">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
                             <td style="padding: 1rem 0.5rem; text-align: left; vertical-align: middle;">
