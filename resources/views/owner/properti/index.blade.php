@@ -195,7 +195,7 @@ let deleteFormActionUrl = '';
 
 function confirmDeleteProperty(id, title) {
     const form = document.getElementById('delete-property-form');
-    form.action = `/owner/properties/${id}`;
+    form.action = `/owner/properti/${id}/hapus`;
     document.getElementById('delete-property-title-modal').textContent = title;
     document.getElementById('delete-property-modal').style.display = 'flex';
 }

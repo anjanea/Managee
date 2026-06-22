@@ -32,6 +32,16 @@
         </div>
     </div>
 
+    @if ($errors->any())
+        <div style="background-color: #fee2e2; border: 1px solid #fca5a5; color: #ef4444; padding: 1rem 1.5rem; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif;">
+            <ul style="margin: 0; padding-left: 1.25rem;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('owner.properties.store') }}" method="POST" id="property-form" enctype="multipart/form-data" class="owner-form" style="display: flex; flex-direction: column; gap: 2rem;">
         @csrf
         
