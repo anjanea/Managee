@@ -90,6 +90,37 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Custom Pagination -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div id="transaction-count-info" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                    Menampilkan {{ $keuangan['riwayat_transaksi']->firstItem() ?: 0 }} - {{ $keuangan['riwayat_transaksi']->lastItem() ?: 0 }} dari {{ $keuangan['riwayat_transaksi']->total() }} transaksi
+                </div>
+                <div class="custom-pagination" style="margin-top: 0; justify-content: flex-end;">
+                    {{-- Previous Page Link --}}
+                    @if ($keuangan['riwayat_transaksi']->onFirstPage())
+                        <span class="pagination-btn disabled">Sebelumnya</span>
+                    @else
+                        <a href="{{ $keuangan['riwayat_transaksi']->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
+                    @endif
+
+                    {{-- Pagination Pages --}}
+                    @foreach ($keuangan['riwayat_transaksi']->getUrlRange(1, $keuangan['riwayat_transaksi']->lastPage()) as $page => $url)
+                        @if ($page == $keuangan['riwayat_transaksi']->currentPage())
+                            <span class="pagination-number active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                        @endif
+                    @endforeach
+
+                    {{-- Next Page Link --}}
+                    @if ($keuangan['riwayat_transaksi']->hasMorePages())
+                        <a href="{{ $keuangan['riwayat_transaksi']->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
+                    @else
+                        <span class="pagination-btn disabled">Berikutnya</span>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
@@ -238,13 +269,26 @@
     function filterTransactions() {
         const type = document.getElementById('filter-type').value;
         const rows = document.querySelectorAll('.tx-row');
+        let visibleCount = 0;
+        const totalCount = rows.length;
+
         rows.forEach(row => {
             if (type === 'all' || row.getAttribute('data-type') === type) {
                 row.style.display = '';
+                visibleCount++;
             } else {
                 row.style.display = 'none';
             }
         });
+
+        const countInfo = document.getElementById('transaction-count-info');
+        if (countInfo) {
+            if (type !== 'all') {
+                countInfo.textContent = `Menampilkan ${visibleCount} dari ${totalCount} transaksi (hasil filter)`;
+            } else {
+                countInfo.innerHTML = `Menampilkan {{ $keuangan['riwayat_transaksi']->firstItem() ?: 0 }} - {{ $keuangan['riwayat_transaksi']->lastItem() ?: 0 }} dari {{ $keuangan['riwayat_transaksi']->total() }} transaksi`;
+            }
+        }
     }
 
     function openWithdrawModal() {

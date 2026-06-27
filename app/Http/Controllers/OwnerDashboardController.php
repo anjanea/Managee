@@ -563,6 +563,18 @@ class OwnerDashboardController extends Controller
             return $b['raw_date']->timestamp <=> $a['raw_date']->timestamp;
         });
 
+        // Paginate transaction history array manually
+        $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1;
+        $perPage = 10;
+        $currentItems = array_slice($riwayat_transaksi, ($currentPage - 1) * $perPage, $perPage);
+        $paginatedTransactions = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentItems,
+            count($riwayat_transaksi),
+            $perPage,
+            $currentPage,
+            ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+        );
+
         $keuangan = [
             'saldo_aktif' => $saldo_aktif,
             'saldo_tertahan' => $saldo_tertahan,
@@ -577,7 +589,7 @@ class OwnerDashboardController extends Controller
                 unset($wd['raw_date']);
                 return $wd;
             }, $withdrawals),
-            'riwayat_transaksi' => $riwayat_transaksi
+            'riwayat_transaksi' => $paginatedTransactions
         ];
 
         // Consolidated Reports Data (dynamic for the last 6 months)
