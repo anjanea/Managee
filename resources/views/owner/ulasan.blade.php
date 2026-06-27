@@ -112,7 +112,7 @@
     }
     function confirmDeleteReply(id) {
         const form = document.getElementById('delete-reply-form');
-        form.action = `/owner/ulasan/${id}/reply`;
+        form.action = `/owner/ulasan/${id}/balas/hapus`;
         document.getElementById('delete-reply-modal').style.display = 'flex';
     }
 
