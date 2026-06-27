@@ -48,9 +48,9 @@
         <div class="card-header" style="padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
             <h4 style="margin: 0; color: var(--primary);">Riwayat Transaksi</h4>
             <select id="filter-type" onchange="filterTransactions()" style="padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 0.85rem; background: var(--bg-light); cursor: pointer;">
-                <option value="all">Semua Tipe</option>
-                <option value="pemasukan">Pemasukan</option>
-                <option value="penarikan">Penarikan Dana</option>
+                <option value="all" {{ request('type') == 'all' || !request('type') ? 'selected' : '' }}>Semua Tipe</option>
+                <option value="pemasukan" {{ request('type') == 'pemasukan' ? 'selected' : '' }}>Pemasukan</option>
+                <option value="penarikan" {{ request('type') == 'penarikan' ? 'selected' : '' }}>Penarikan Dana</option>
             </select>
         </div>
         <div class="card-body" style="padding: 1.5rem;">
@@ -101,7 +101,7 @@
                     @if ($keuangan['riwayat_transaksi']->onFirstPage())
                         <span class="pagination-btn disabled">Sebelumnya</span>
                     @else
-                        <a href="{{ $keuangan['riwayat_transaksi']->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
+                        <a href="{{ $keuangan['riwayat_transaksi']->appends(['type' => request('type')])->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
                     @endif
 
                     {{-- Pagination Pages --}}
@@ -109,13 +109,13 @@
                         @if ($page == $keuangan['riwayat_transaksi']->currentPage())
                             <span class="pagination-number active">{{ $page }}</span>
                         @else
-                            <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                            <a href="{{ $keuangan['riwayat_transaksi']->appends(['type' => request('type')])->url($page) }}" class="pagination-number">{{ $page }}</a>
                         @endif
                     @endforeach
 
                     {{-- Next Page Link --}}
                     @if ($keuangan['riwayat_transaksi']->hasMorePages())
-                        <a href="{{ $keuangan['riwayat_transaksi']->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
+                        <a href="{{ $keuangan['riwayat_transaksi']->appends(['type' => request('type')])->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
                     @else
                         <span class="pagination-btn disabled">Berikutnya</span>
                     @endif
@@ -268,27 +268,7 @@
 
     function filterTransactions() {
         const type = document.getElementById('filter-type').value;
-        const rows = document.querySelectorAll('.tx-row');
-        let visibleCount = 0;
-        const totalCount = rows.length;
-
-        rows.forEach(row => {
-            if (type === 'all' || row.getAttribute('data-type') === type) {
-                row.style.display = '';
-                visibleCount++;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-
-        const countInfo = document.getElementById('transaction-count-info');
-        if (countInfo) {
-            if (type !== 'all') {
-                countInfo.textContent = `Menampilkan ${visibleCount} dari ${totalCount} transaksi (hasil filter)`;
-            } else {
-                countInfo.innerHTML = `Menampilkan {{ $keuangan['riwayat_transaksi']->firstItem() ?: 0 }} - {{ $keuangan['riwayat_transaksi']->lastItem() ?: 0 }} dari {{ $keuangan['riwayat_transaksi']->total() }} transaksi`;
-            }
-        }
+        window.location.href = `{{ route('owner.keuangan.index') }}?type=${type}`;
     }
 
     function openWithdrawModal() {

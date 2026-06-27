@@ -563,6 +563,17 @@ class OwnerDashboardController extends Controller
             return $b['raw_date']->timestamp <=> $a['raw_date']->timestamp;
         });
 
+        // Filter transaction history by type
+        $type = request()->query('type', 'all');
+        if ($type !== 'all') {
+            $riwayat_transaksi = array_filter($riwayat_transaksi, function($tx) use ($type) {
+                $txType = strpos($tx['tipe'], 'Penarikan') !== false ? 'penarikan' : 'pemasukan';
+                return $txType === $type;
+            });
+            // Re-index array values after filtering
+            $riwayat_transaksi = array_values($riwayat_transaksi);
+        }
+
         // Paginate transaction history array manually
         $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1;
         $perPage = 10;
