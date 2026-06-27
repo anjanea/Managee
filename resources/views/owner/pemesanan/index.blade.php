@@ -31,9 +31,9 @@
             <label for="booking-property-filter" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">Cari Properti</label>
             <select id="booking-property-filter" onchange="filterBookings()" style="padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; outline: none; background: var(--bg-light); cursor: pointer; transition: var(--transition);">
                 <option value="all">Semua Properti</option>
-                <option value="Apartemen Chilitown">Apartemen Chilitown</option>
-                <option value="Villa Canggu">Villa Canggu</option>
-                <option value="Rumah Modern Ubud">Rumah Modern Ubud</option>
+                @foreach($properties as $property)
+                    <option value="{{ $property->title }}">{{ $property->title }}</option>
+                @endforeach
             </select>
         </div>
         <!-- Status Selector -->
@@ -56,9 +56,6 @@
         <h4 style="margin: 0; color: var(--primary);">Daftar Seluruh Pemesanan</h4>
     </div>
     <div class="card-body" style="padding: 1.5rem;">
-        <div id="bookings-count-info" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 500;">
-            Menampilkan {{ count($bookings) }} dari {{ count($bookings) }} pemesanan
-        </div>
         <div class="table-responsive">
             <table class="owner-table">
                 <thead>
@@ -118,6 +115,37 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Custom Pagination -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div id="bookings-count-info" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                Menampilkan {{ $bookings->firstItem() ?: 0 }} - {{ $bookings->lastItem() ?: 0 }} dari {{ $bookings->total() }} pemesanan
+            </div>
+            <div class="custom-pagination" style="margin-top: 0; justify-content: flex-end;">
+                {{-- Previous Page Link --}}
+                @if ($bookings->onFirstPage())
+                    <span class="pagination-btn disabled">Sebelumnya</span>
+                @else
+                    <a href="{{ $bookings->previousPageUrl() }}" class="pagination-btn">Sebelumnya</a>
+                @endif
+
+                {{-- Pagination Pages --}}
+                @foreach ($bookings->getUrlRange(1, $bookings->lastPage()) as $page => $url)
+                    @if ($page == $bookings->currentPage())
+                        <span class="pagination-number active">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" class="pagination-number">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($bookings->hasMorePages())
+                    <a href="{{ $bookings->nextPageUrl() }}" class="pagination-btn">Berikutnya</a>
+                @else
+                    <span class="pagination-btn disabled">Berikutnya</span>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 
@@ -145,7 +173,12 @@
             }
         });
 
-        document.getElementById('bookings-count-info').textContent = `Menampilkan ${visibleCount} dari ${totalCount} pemesanan`;
+        const countInfo = document.getElementById('bookings-count-info');
+        if (propFilter !== 'all' || statusFilter !== 'all') {
+            countInfo.textContent = `Menampilkan ${visibleCount} dari ${totalCount} pemesanan (hasil filter)`;
+        } else {
+            countInfo.innerHTML = `Menampilkan {{ $bookings->firstItem() ?: 0 }} - {{ $bookings->lastItem() ?: 0 }} dari {{ $bookings->total() }} pemesanan`;
+        }
     }
 
     document.addEventListener('DOMContentLoaded', filterBookings);

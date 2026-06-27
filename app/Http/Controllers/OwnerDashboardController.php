@@ -82,6 +82,26 @@ class OwnerDashboardController extends Controller
 
     public function propertyStore(Request $request)
     {
+        if ($request->files->has('images_files') || $request->has('images_files')) {
+            $files = $request->file('images_files');
+            if (is_array($files)) {
+                $filteredFiles = array_filter($files, function ($file) {
+                    return $file instanceof \Illuminate\Http\UploadedFile && $file->getError() !== UPLOAD_ERR_NO_FILE;
+                });
+                if (empty($filteredFiles)) {
+                    $request->files->remove('images_files');
+                    $request->request->remove('images_files');
+                } else {
+                    $request->files->set('images_files', array_values($filteredFiles));
+                }
+            } else {
+                if (!($files instanceof \Illuminate\Http\UploadedFile) || $files->getError() === UPLOAD_ERR_NO_FILE) {
+                    $request->files->remove('images_files');
+                    $request->request->remove('images_files');
+                }
+            }
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'type' => 'required|string|in:apartemen,villa,rumah',
@@ -167,6 +187,26 @@ class OwnerDashboardController extends Controller
 
     public function propertyUpdate(Request $request, Property $property)
     {
+        if ($request->files->has('images_files') || $request->has('images_files')) {
+            $files = $request->file('images_files');
+            if (is_array($files)) {
+                $filteredFiles = array_filter($files, function ($file) {
+                    return $file instanceof \Illuminate\Http\UploadedFile && $file->getError() !== UPLOAD_ERR_NO_FILE;
+                });
+                if (empty($filteredFiles)) {
+                    $request->files->remove('images_files');
+                    $request->request->remove('images_files');
+                } else {
+                    $request->files->set('images_files', array_values($filteredFiles));
+                }
+            } else {
+                if (!($files instanceof \Illuminate\Http\UploadedFile) || $files->getError() === UPLOAD_ERR_NO_FILE) {
+                    $request->files->remove('images_files');
+                    $request->request->remove('images_files');
+                }
+            }
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'type' => 'required|string|in:apartemen,villa,rumah',
@@ -444,8 +484,8 @@ class OwnerDashboardController extends Controller
     {
         $properties = Property::orderBy('title', 'asc')->get();
         
-        // Fetch all bookings from database with user and property relationships
-        $bookings = \App\Models\Booking::with(['user', 'property'])->orderBy('created_at', 'desc')->get();
+        // Fetch all bookings from database with user and property relationships paginated
+        $bookings = \App\Models\Booking::with(['user', 'property'])->orderBy('id', 'desc')->paginate(10);
 
         return view('owner.pemesanan.index', compact('bookings', 'properties'));
     }
